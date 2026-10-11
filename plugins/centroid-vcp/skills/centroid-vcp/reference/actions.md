@@ -251,4 +251,4 @@ centroid-plc plugin is installed, see `centroid-plc-programming`; otherwise (PLC
 A macro drives a bit with `M94` (set) and `M95` (reset): the manual's laser macro runs
 `M94/29` to turn on the `LaserAlignActivate` output and `M95/29` to turn it off (VCP Manual p.23).
 A custom M-code works by setting an `M94`/`M95` bit that the PLC program checks (PLC Manual,
-PDF p.61). A macro reads an output as `#6xxxx`: `IF #61058` tests OUT1058 (PLC Manual, PDF p.61).
+PDF p.61). The manual's example macro tests OUT1058 with `IF #61058` (PLC Manual, PDF p.61).

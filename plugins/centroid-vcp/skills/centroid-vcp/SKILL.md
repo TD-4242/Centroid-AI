@@ -79,7 +79,8 @@ findstr /n "<button" "c:\cncm\resources\vcp\skins\<skin>.vcp"
 
 Which stock skin to use (or start with) is selected on Acorn and AcornSix from the drop-down menu
 in the Wizard `VCP Preferences` menu (VCP Manual p.5); the file the VCP actually loads at startup
-is the `Skin` value in `options.xml` (VCP Manual p.7).
+is the `Skin` value in `options.xml` (VCP Manual p.7). Once you edit a skin, set the Wizard
+`Custom VCP Skin` preference, which stops the Wizard from overwriting a custom VCP (Acorn Install p.97).
 
 ### Button XML tags at a glance
 
@@ -150,10 +151,12 @@ The manual's own Resources page (VCP Manual p.64):
 
 ## Manuals
 
-This skill cites: VCP Manual (VCP 2.0 Users Manual); its few PLC Manual pointers are PDF pages of
-a manual this plugin does not fetch. VCP Manual citations are printed pages, which equal PDF pages. Exact wording is in the official PDF. When an answer needs text beyond these
-references, run `python3 <plugin>/scripts/fetch_manual.py vcp-manual` (`<plugin>` is this plugin's
-root directory):
+This skill cites: VCP Manual (VCP 2.0 Users Manual), Acorn Install (Acorn Installation Manual); its
+few PLC Manual pointers are PDF pages of a manual this plugin does not fetch. VCP Manual citations
+are printed pages, which equal PDF pages; Acorn Install citations are printed pages (PDF page =
+printed + 1). Exact wording is in the official PDF. When an answer needs text beyond these
+references, run `python3 <plugin>/scripts/fetch_manual.py <id>` with `vcp-manual` or
+`acorn-install` (`<plugin>` is this plugin's root directory):
 
 - exit 0: it printed the local PDF path — read the cited page with `pdftotext -layout -f <p> -l <p> <path> -`
   if available, or open the PDF.
