@@ -6,8 +6,9 @@ description: Use when the user wants to check that a Centroid CNC12 PLC program 
 # Compile-check a Centroid PLC program
 
 This runs Centroid's compiler on the user's own computer, so it needs that computer, with CNC12
-(or a copy of `mpucomp.exe`) on it. In a web chat (Claude web chat or ChatGPT) say so plainly and
-suggest running it in Claude Code, Codex or the Claude Desktop app on that computer.
+(or a copy of `mpucomp.exe`) on it. In a chat app (Claude web or Desktop chat, or ChatGPT) say so
+plainly and suggest running it in Claude Code (including the Claude Desktop app's Code tab) or
+Codex on that computer.
 
 Run `python3 <plugin>/scripts/plc_compile.py <file.src>` where `<plugin>` is this plugin's root
 (the directory two levels above this file). Add `-v` to list every warning, `-o out.plc` to keep

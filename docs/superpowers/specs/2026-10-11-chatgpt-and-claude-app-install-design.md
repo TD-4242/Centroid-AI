@@ -36,7 +36,8 @@ pilot results are in.
   - In web chat the knowledge skills work. Downloading manuals may or may not work, depending on
     the sandbox's network access; settings in `~/.centroid-ai/` may not persist between chats.
   - Compile and format need a local machine with CNC12 (and Wine on Linux or macOS), so they
-    work only in Claude Code or the Desktop app on that machine.
+    work only in Claude Code (including the Desktop app's Code tab) or Codex on that machine.
+    (Corrected in final review: Desktop chats run code in a cloud sandbox, not locally.)
 
 README.md's **Quick install** gets one line pointing to this section.
 

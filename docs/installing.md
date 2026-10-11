@@ -62,7 +62,8 @@ Notes:
   the chat's network access, and settings in `~/.centroid-ai/` may not last between chats. When
   a skill can't download a manual it gives you the link or asks you to upload the PDF.
 - Compile and format run Centroid's compiler on your own computer, so they need CNC12 (and Wine
-  on Linux or macOS) there, and work only in Claude Code or the Desktop app on that computer.
+  on Linux or macOS) there. Chats in the Claude app, web or Desktop, run code in a cloud sandbox,
+  so use Claude Code (including the Desktop app's Code tab) or Codex on that computer instead.
 
 ## ChatGPT (pilot)
 
