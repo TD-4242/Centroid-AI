@@ -18,7 +18,7 @@ PDF page = cited page + offset. An offset of +0 means the skills cite PDF page n
 | [CNC12 Router Operators Manual](https://www.centroidcnc.com/centroid_diy/downloads/operator_manuals/centroid-cnc12-router-operator-manual.pdf) | Router Manual | CNC12 V5.42+ | 511 | +1 | [centroid-acorn](plugins/centroid-acorn.md), [centroid-cnc12-ops](plugins/centroid-cnc12-ops.md), [centroid-plc](plugins/centroid-plc.md) |
 | [Acorn Installation Manual](https://www.centroidcnc.com/centroid_diy/downloads/acorn_documentation/centroid_acorn_install_manual.pdf) | Acorn Install | rev6 | 138 | +1 | [centroid-acorn](plugins/centroid-acorn.md), [centroid-cnc12-ops](plugins/centroid-cnc12-ops.md), [centroid-plc](plugins/centroid-plc.md), [centroid-vcp](plugins/centroid-vcp.md) |
 | [Acorn Axis Pairing and Squaring](https://www.centroidcnc.com/centroid_diy/downloads/acorn_documentation/paired_axes_acorn_user_guide.pdf) | Pairing Guide | rev19 | 41 | +0 | [centroid-acorn](plugins/centroid-acorn.md), [centroid-cnc12-ops](plugins/centroid-cnc12-ops.md) |
-| [ALLIN1DC Installation Manual](https://www.centroidcnc.com/downloads/centroid_allin1dc_install_manual.pdf) | ALLIN1DC Install | rev22 | n/a | +0 | [centroid-allin1dc](plugins/centroid-allin1dc.md), [teco-f510](plugins/teco-f510.md) |
+| [ALLIN1DC Installation Manual](https://www.centroidcnc.com/downloads/centroid_allin1dc_install_manual.pdf) | ALLIN1DC Install | rev22 | 125 | +1 | [centroid-allin1dc](plugins/centroid-allin1dc.md), [teco-f510](plugins/teco-f510.md) |
 | [F510 Instruction Manual](https://www.tecowestinghouse.com/Manuals/F510_instruction_manual.pdf) | F510 Manual | TECO-F510IM Ver 01 2017.12 | 438 | +0 | [teco-f510](plugins/teco-f510.md) |
 
 ## Downloading by hand
