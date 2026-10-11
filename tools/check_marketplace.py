@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Check that the Claude Code and Codex catalogs, and each plugin's two manifests, agree."""
+import argparse
 import json
 import re
 import sys
@@ -8,6 +9,7 @@ from pathlib import Path
 CLAUDE_CATALOG = Path(".claude-plugin/marketplace.json")
 CODEX_CATALOG = Path(".agents/plugins/marketplace.json")
 NAME_RE = re.compile(r"^name:\s*(\S+)\s*$", re.MULTILINE)
+DEFAULT_MAX_SHORT = 30
 
 
 def _load(path, problems):
@@ -74,11 +76,55 @@ def check_tree(root):
     return problems
 
 
+def _short_description(manifest):
+    node = manifest
+    for key in ("extensions", "com.openai", "interface", "shortDescription"):
+        if not isinstance(node, dict):
+            return None
+        node = node.get(key)
+    return node if isinstance(node, str) else None
+
+
+def chatgpt_warnings(root, max_short=DEFAULT_MAX_SHORT):
+    """Warn for each Codex shortDescription longer than ChatGPT's suggested length (issue #2)."""
+    root = Path(root)
+    warnings = []
+    try:
+        catalog = json.loads((root / CODEX_CATALOG).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return warnings  # check_tree reports an unreadable catalog
+    for entry in catalog.get("plugins", []):
+        try:
+            manifest = json.loads((root / _codex_source(entry) / "plugin.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError, TypeError):
+            continue
+        short = _short_description(manifest)
+        if short is not None and len(short) > max_short:
+            warnings.append(f"warning: {entry.get('name')}: shortDescription is {len(short)} chars "
+                            f"(ChatGPT target {max_short})")
+    return warnings
+
+
+def _positive_int(text):
+    value = int(text)
+    if value < 1:
+        raise argparse.ArgumentTypeError("must be 1 or more")
+    return value
+
+
 def main(argv):
-    root = Path(argv[0]) if argv else Path(__file__).resolve().parent.parent
-    problems = check_tree(root)
+    parser = argparse.ArgumentParser(description="Check that the catalogs and plugin manifests agree.")
+    parser.add_argument("root", nargs="?", type=Path, default=Path(__file__).resolve().parent.parent)
+    parser.add_argument("--profile", choices=["chatgpt"], help="also print warnings for this target")
+    parser.add_argument("--max-short", type=_positive_int, default=DEFAULT_MAX_SHORT,
+                        help="ChatGPT shortDescription target length (default %(default)s)")
+    args = parser.parse_args(argv)
+    problems = check_tree(args.root)
     for problem in problems:
         print(problem)
+    if args.profile == "chatgpt":
+        for warning in chatgpt_warnings(args.root, args.max_short):
+            print(warning)
     if problems:
         return 1
     print("OK: catalogs and manifests agree")

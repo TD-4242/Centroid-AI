@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "centroid-allin1dc",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Install, wire, commission and tune a Centroid ALLIN1DC (MPU11) servo controller.",
   "author": { "name": "Bill Warner" },
   "homepage": "https://github.com/TD-4242/Centroid-AI",

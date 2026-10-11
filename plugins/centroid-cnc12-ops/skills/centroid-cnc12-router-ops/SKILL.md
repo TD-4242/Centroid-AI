@@ -105,6 +105,10 @@ directory):
 - exit 1: download failed; give the user the printed URL to download by hand.
 - exit 2: show the printed error line to the user as-is (bad settings file or unknown manual id).
 
+If you can't run Python here (for example in ChatGPT or Claude web chat), don't run the script:
+give the user the manual's link from the download-links page named below, or ask them to upload
+the PDF and read the cited page from it.
+
 On Windows, use `py -3` (or `python`) if `python3` is not found.
 
 Download links for every manual: https://github.com/TD-4242/Centroid-AI/blob/main/docs/manuals.md

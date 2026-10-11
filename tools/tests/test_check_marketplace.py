@@ -1,3 +1,5 @@
+import contextlib
+import io
 import json
 import tempfile
 import unittest
@@ -65,6 +67,82 @@ class CheckMarketplaceTest(unittest.TestCase):
         write(self.root / ".claude-plugin" / "marketplace.json", "{nope")
         write(self.root / ".agents" / "plugins" / "marketplace.json", "{}")
         self.assertTrue(any("invalid JSON" in p for p in cm.check_tree(self.root)))
+
+
+def set_short(pdir, short, extensions=None):
+    data = {"name": pdir.name, "version": "0.1.0"}
+    data["extensions"] = extensions if extensions is not None else {
+        "com.openai": {"interface": {"shortDescription": short}}}
+    write(pdir / "plugin.json", json.dumps(data))
+
+
+class ChatGPTProfileTest(unittest.TestCase):
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self._tmp.name)
+        self.pdir = make_plugin(self.root, "centroid-a")
+        write_catalogs(self.root, ["centroid-a"])
+
+    def tearDown(self):
+        self._tmp.cleanup()
+
+    def run_main(self, *args):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            code = cm.main([str(self.root), *args])
+        return code, out.getvalue()
+
+    def test_long_short_description_warns(self):
+        set_short(self.pdir, "x" * 31)
+        self.assertEqual(cm.chatgpt_warnings(self.root),
+                         ["warning: centroid-a: shortDescription is 31 chars (ChatGPT target 30)"])
+
+    def test_exactly_at_limit_is_not_warned(self):
+        set_short(self.pdir, "x" * 30)
+        self.assertEqual(cm.chatgpt_warnings(self.root), [])
+
+    def test_max_short_changes_threshold(self):
+        set_short(self.pdir, "x" * 12)
+        self.assertEqual(cm.chatgpt_warnings(self.root, max_short=12), [])
+        self.assertEqual(cm.chatgpt_warnings(self.root, max_short=11),
+                         ["warning: centroid-a: shortDescription is 12 chars (ChatGPT target 11)"])
+
+    def test_missing_or_malformed_extensions_skipped(self):
+        self.assertEqual(cm.chatgpt_warnings(self.root), [])  # make_plugin writes no extensions
+        set_short(self.pdir, None, extensions="not-a-dict")
+        self.assertEqual(cm.chatgpt_warnings(self.root), [])
+        set_short(self.pdir, None, extensions={"com.openai": {"interface": {"shortDescription": 7}}})
+        self.assertEqual(cm.chatgpt_warnings(self.root), [])
+
+    def test_profile_prints_warnings_and_exits_zero(self):
+        set_short(self.pdir, "x" * 40)
+        code, out = self.run_main("--profile", "chatgpt")
+        self.assertEqual(code, 0)
+        self.assertIn("warning: centroid-a: shortDescription is 40 chars (ChatGPT target 30)", out)
+        self.assertIn("OK: catalogs and manifests agree", out)
+
+    def test_profile_flag_on_cli_sets_limit(self):
+        set_short(self.pdir, "x" * 40)
+        code, out = self.run_main("--profile", "chatgpt", "--max-short", "50")
+        self.assertEqual(code, 0)
+        self.assertNotIn("warning:", out)
+
+    def test_default_run_prints_no_warnings(self):
+        set_short(self.pdir, "x" * 40)
+        code, out = self.run_main()
+        self.assertEqual(code, 0)
+        self.assertNotIn("warning:", out)
+
+    def test_profile_still_fails_on_real_problems(self):
+        write_catalogs(self.root, ["centroid-a", "centroid-missing"])
+        code, _ = self.run_main("--profile", "chatgpt")
+        self.assertEqual(code, 1)
+
+    def test_max_short_must_be_positive(self):
+        for bad in ("0", "-3"):
+            with self.assertRaises(SystemExit) as ctx, contextlib.redirect_stderr(io.StringIO()):
+                cm.main([str(self.root), "--profile", "chatgpt", "--max-short", bad])
+            self.assertEqual(ctx.exception.code, 2)
 
 
 if __name__ == "__main__":
