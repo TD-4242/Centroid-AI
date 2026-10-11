@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "centroid-cnc12-ops",
+  "version": "0.1.0",
+  "description": "Operate Centroid CNC12 Mill and Router software: menus, jogging, part zero, tool offsets, running jobs, and G/M-code, parameter and message lookup.",
+  "author": { "name": "Bill Warner" },
+  "homepage": "https://github.com/TD-4242/Centroid-AI",
+  "repository": "https://github.com/TD-4242/Centroid-AI",
+  "license": "MIT",
+  "keywords": ["centroid", "cnc12", "mill", "router"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Centroid CNC12 Operation",
+        "shortDescription": "Operate Centroid CNC12 Mill and Router software: menus, jogging, part zero, tool offsets, running jobs, and G/M-code, parameter and message lookup.",
+        "category": "Manufacturing"
+      }
+    }
+  }
+}

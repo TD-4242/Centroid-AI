@@ -4,6 +4,7 @@
   "owner": { "name": "Bill Warner", "url": "https://github.com/TD-4242" },
     "plugins": [
     { "name": "centroid-plc", "source": "./plugins/centroid-plc", "description": "Write, read and debug Centroid CNC12 PLC programs (MPU11/ALLIN1DC and Acorn), and compile-check or format .src files with Centroid's own compiler.", "category": "manufacturing" },
-    { "name": "centroid-vcp", "source": "./plugins/centroid-vcp", "description": "Customize the Centroid CNC12 Virtual Control Panel: buttons, skins, graphics, LED states and PLC-wired actions.", "category": "manufacturing" }
+    { "name": "centroid-vcp", "source": "./plugins/centroid-vcp", "description": "Customize the Centroid CNC12 Virtual Control Panel: buttons, skins, graphics, LED states and PLC-wired actions.", "category": "manufacturing" },
+    { "name": "centroid-cnc12-ops", "source": "./plugins/centroid-cnc12-ops", "description": "Operate Centroid CNC12 Mill and Router software: menus, jogging, part zero, tool offsets, running jobs, and G/M-code, parameter and message lookup.", "category": "manufacturing" }
   ]
 }

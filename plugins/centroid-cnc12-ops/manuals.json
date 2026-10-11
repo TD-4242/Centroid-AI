@@ -1,0 +1,10 @@
+[
+  { "id": "mill-manual", "title": "CNC12 Milling Machine Operators Manual", "citeAs": "Mill Manual",
+    "url": "https://www.centroidcnc.com/centroid_diy/downloads/operator_manuals/centroid-cnc12-mill-operator-manual.pdf",
+    "file": "centroid-cnc12-mill-operator-manual.pdf", "expectRev": "CNC12 V5.4+",
+    "expectPages": 506, "pdfOffset": 1, "sizeMB": 57 },
+  { "id": "router-manual", "title": "CNC12 Router Operators Manual", "citeAs": "Router Manual",
+    "url": "https://www.centroidcnc.com/centroid_diy/downloads/operator_manuals/centroid-cnc12-router-operator-manual.pdf",
+    "file": "centroid-cnc12-router-operator-manual.pdf", "expectRev": "CNC12 V5.42+",
+    "expectPages": 511, "pdfOffset": 1, "sizeMB": 63 }
+]
