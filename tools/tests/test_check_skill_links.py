@@ -34,6 +34,10 @@ class CheckSkillLinksTest(unittest.TestCase):
         self.assertTrue(any("broken link reference/missing.md" in m for m in misses))
         self.assertTrue(any("broken anchor reference/r.md#nope" in m for m in misses))
 
+    def test_readme_is_scanned(self):
+        write(self.root / "README.md", "[x](missing.md)\n")
+        self.assertIn("README.md:1: broken link missing.md", csl.check_tree(self.root))
+
     def test_unknown_skill_name(self):
         self.skill(self.a, "centroid-alpha", "See `centroid-cnc12-gmcodes`.\n")
         self.assertTrue(any("unknown skill centroid-cnc12-gmcodes" in m for m in csl.check_tree(self.root)))

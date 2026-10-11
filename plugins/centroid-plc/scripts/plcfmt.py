@@ -58,8 +58,8 @@ def read_src(path):
     stray = data.replace(b"\r\n", b"")
     if b"\n" in stray or b"\r" in stray:
         raise ValueError(
-            "bare LF or CR line ending found; %s must be CRLF-only "
-            "(.gitattributes pins eol=crlf)" % path)
+            "bare LF or CR line ending found; %s must use Windows (CRLF) line endings, "
+            "as CNC12 writes them. Re-save it with CRLF line endings and retry." % path)
     return data.decode("ascii")
 
 
@@ -310,7 +310,7 @@ def main(argv=None):
     if args.fix and not args.no_verify:
         try:
             found = locate(Path(args.file), explicit=args.compiler)
-        except FileNotFoundError as e:
+        except (FileNotFoundError, ValueError) as e:
             sys.stderr.write("error: %s\n" % e)
             return 2
         if found is None:

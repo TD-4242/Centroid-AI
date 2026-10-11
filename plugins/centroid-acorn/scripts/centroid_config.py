@@ -21,7 +21,7 @@ def config_path():
 def load():
     cfg = copy.deepcopy(DEFAULTS)
     try:
-        data = json.loads(config_path().read_text(encoding="utf-8"))
+        data = json.loads(config_path().read_text(encoding="utf-8-sig"))
     except FileNotFoundError:
         return cfg
     except json.JSONDecodeError as e:

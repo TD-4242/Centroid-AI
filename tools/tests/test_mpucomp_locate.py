@@ -31,6 +31,18 @@ class LocateTest(unittest.TestCase):
     def exe(self, path):
         return write(path, "MZ")
 
+    def test_relative_explicit_compiler_resolves_to_absolute(self):
+        cwd = os.getcwd()
+        work = self.t / "work"
+        self.exe(work / "tools" / "mpucomp.exe")
+        os.chdir(work)
+        try:
+            found = ml.locate(self.src, explicit="tools/mpucomp.exe")
+        finally:
+            os.chdir(cwd)
+        self.assertTrue(found.path.is_absolute())
+        self.assertTrue(found.path.exists())
+
     def test_nothing_found(self):
         self.assertIsNone(ml.locate(self.src, **self.kw))
 

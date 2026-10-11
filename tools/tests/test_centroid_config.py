@@ -24,6 +24,12 @@ class ConfigTest(unittest.TestCase):
         os.environ.update(self._env)
         self._tmp.cleanup()
 
+    def test_loads_config_with_utf8_bom(self):
+        self.home.mkdir(parents=True)
+        (self.home / "config.json").write_bytes(
+            b'\xef\xbb\xbf{"mpucomp": {"path": "x"}}')
+        self.assertEqual(cc.load()["mpucomp"]["path"], "x")
+
     def test_defaults_without_file(self):
         cfg = cc.load()
         self.assertEqual(cfg["manuals"]["autoDownload"], "ask")

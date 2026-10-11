@@ -79,6 +79,47 @@ def test_read_src_rejects_bare_lf_or_cr():
         _raises(ValueError, plcfmt.read_src, p)
 
 
+def test_read_src_lf_error_names_crlf_not_gitattributes():
+    with tempfile.TemporaryDirectory() as td:
+        p = os.path.join(td, "x.src")
+        with open(p, "wb") as f:
+            f.write(b"a\nb\r\n")
+        try:
+            plcfmt.read_src(p)
+        except ValueError as e:
+            msg = str(e)
+        else:
+            raise AssertionError("expected ValueError")
+        assert ".gitattributes" not in msg
+        assert "Windows (CRLF)" in msg and "re-save" in msg.lower()
+
+
+def test_main_bad_config_exits_2_and_leaves_file():
+    with tempfile.TemporaryDirectory() as td:
+        home = os.path.join(td, "home")
+        os.makedirs(home)
+        with open(os.path.join(home, "config.json"), "w") as f:
+            f.write('{"mpucomp": {"path": "x",}}')
+        p = os.path.join(td, "x.src")
+        with open(p, "wb") as f:
+            f.write(b"a   IS INP1\r\n")
+        saved = os.environ.get("CENTROID_AI_HOME")
+        os.environ["CENTROID_AI_HOME"] = home
+        err = io.StringIO()
+        try:
+            with contextlib.redirect_stderr(err):
+                code = plcfmt.main(["--fix", p])
+        finally:
+            if saved is None:
+                os.environ.pop("CENTROID_AI_HOME", None)
+            else:
+                os.environ["CENTROID_AI_HOME"] = saved
+        assert code == 2, code
+        assert "not valid JSON" in err.getvalue()
+        assert "Traceback" not in err.getvalue()
+        assert _read(p) == b"a   IS INP1\r\n"
+
+
 # --------------------------------------------------------------------------- #
 # Task 2: Rule 1 -- tabs
 # --------------------------------------------------------------------------- #

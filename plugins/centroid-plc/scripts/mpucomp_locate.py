@@ -29,7 +29,7 @@ def find_in(directory):
 
 
 def _as_compiler(path):
-    path = Path(path).expanduser()
+    path = Path(path).expanduser().resolve()
     return find_in(path) if path.is_dir() else (path if path.is_file() else None)
 
 
