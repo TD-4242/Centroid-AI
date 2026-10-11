@@ -35,9 +35,12 @@ def _catalog_names(root, rel):
     return {entry.get("name") for entry in data.get("plugins", []) if isinstance(entry, dict)}
 
 
-def _files(pdir):
-    for path in sorted(pdir.rglob("*")):
-        if path.is_file() and "__pycache__" not in path.parts and path.suffix != ".pyc":
+def _files(root, plugin):
+    # Tracked plus untracked-but-not-ignored files, so ignored binaries (*.exe, *.plc) never ship.
+    listing = _git(root, "ls-files", "-z", "--cached", "--others", "--exclude-standard", "--", f"plugins/{plugin}")
+    for rel in sorted(set(filter(None, listing.split("\0")))):
+        path = root / rel
+        if path.is_file():
             yield path
 
 
@@ -66,7 +69,7 @@ def export(root, plugin, out, allow_dirty=False, now=None):
     out.mkdir(parents=True, exist_ok=True)
     zip_path = out / f"{plugin}-{version}-{sha[:7]}.zip"
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
-        for path in _files(pdir):
+        for path in _files(root, plugin):
             zf.write(path, f"{plugin}/{path.relative_to(pdir).as_posix()}")
         zf.writestr(f"{plugin}/SOURCE.txt", source)
     return zip_path

@@ -97,6 +97,23 @@ class ExportPluginTest(unittest.TestCase):
         make_plugin(self.root, "centroid-b")
         self.assertIn("dirty: false\n", self.source(self.export()))
 
+    def test_ignored_files_not_exported(self):
+        with open(self.root / ".gitignore", "a", encoding="utf-8") as f:
+            f.write("*.plc\n*.exe\n")
+        write(self.pdir / "out.plc", "compiled")
+        write(self.pdir / "bin" / "mpucomp.exe", "binary")
+        for allow_dirty in (False, True):
+            names = self.names(self.export(allow_dirty=allow_dirty))
+            self.assertNotIn("centroid-a/out.plc", names)
+            self.assertNotIn("centroid-a/bin/mpucomp.exe", names)
+
+    def test_allow_dirty_includes_untracked_and_skips_deleted(self):
+        write(self.pdir / "skills" / "s1" / "reference" / "new.md", "new\n")
+        (self.pdir / "scripts" / "x.py").unlink()
+        names = self.names(self.export(allow_dirty=True))
+        self.assertIn("centroid-a/skills/s1/reference/new.md", names)
+        self.assertNotIn("centroid-a/scripts/x.py", names)
+
     def test_unknown_plugin(self):
         with self.assertRaises(ep.ExportError) as ctx:
             self.export("nope")
