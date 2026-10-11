@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Find a manual from this plugin's manuals.json locally, or download it with the user's consent."""
 import argparse
+import http.client
 import json
 import os
 import re
@@ -93,7 +94,7 @@ def main(argv):
             return 4
         try:
             download(entry["url"], dest)
-        except OSError as e:
+        except (OSError, http.client.HTTPException, ValueError) as e:
             print(f"Could not download {entry['title']}: {e}.\n"
                   f"You can download it in a browser from {entry['url']} and save it as {dest}")
             return 1

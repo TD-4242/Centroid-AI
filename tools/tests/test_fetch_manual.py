@@ -1,10 +1,12 @@
 import contextlib
+import http.client
 import io
 import json
 import os
 import sys
 import tempfile
 import unittest
+import urllib.error
 from pathlib import Path
 
 from tools.tests.helpers import REPO, write
@@ -92,6 +94,29 @@ class FetchManualTest(unittest.TestCase):
         self.assertFalse(self.dest.exists())
         self.assertEqual(list(self.dest.parent.glob("*")), [])
         self.assertIn("https://example.com/m1.pdf", out)
+
+    def assert_download_failed(self, body_or_error):
+        if isinstance(body_or_error, Exception):
+            def fake(request, timeout=None):
+                self.requests.append(request)
+                raise body_or_error
+            fm.urlopen = fake
+        else:
+            self.serve(body_or_error)
+        code, out, _ = self.run_cli("m1", "--yes")
+        self.assertEqual(code, 1)
+        self.assertIn("https://example.com/m1.pdf", out)
+        self.assertFalse(self.dest.exists())
+        self.assertEqual(list(self.dest.parent.glob("*")), [])
+
+    def test_network_error_exits_1_with_manual_url(self):
+        self.assert_download_failed(urllib.error.URLError("offline"))
+
+    def test_truncated_body_exits_1_with_manual_url(self):
+        self.assert_download_failed(http.client.IncompleteRead(b"%PDF-1.7 partial"))
+
+    def test_zero_byte_body_exits_1_with_manual_url(self):
+        self.assert_download_failed(b"")
 
     def test_page_count_mismatch_warns_but_succeeds(self):
         self.serve(PDF + b"4 0 obj << /Type /Page >>\n")
