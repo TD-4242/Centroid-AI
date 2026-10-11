@@ -32,7 +32,7 @@ Success means:
 | Concern | Claude Code | Codex |
 | --- | --- | --- |
 | Marketplace file | `.claude-plugin/marketplace.json` | `.agents/plugins/marketplace.json` (also reads the Claude file as legacy) |
-| Plugin manifest | `<plugin>/.claude-plugin/plugin.json` | `<plugin>/.codex-plugin/plugin.json` (or portable root `plugin.json`) |
+| Plugin manifest | `<plugin>/.claude-plugin/plugin.json` | portable `<plugin>/plugin.json` with `extensions.com.openai` (`.codex-plugin/plugin.json` is only a fallback) |
 | Skills | `<plugin>/skills/<name>/SKILL.md` | same |
 | Commands | a skill is invocable as `/<plugin>:<skill>` | no separate command type; skills are invoked by name |
 | Add marketplace | `claude plugin marketplace add TD-4242/Centroid-AI` | `codex plugin marketplace add TD-4242/Centroid-AI` |
@@ -76,7 +76,7 @@ Centroid-AI/
 │   └── fetch_manual.py
 ├── plugins/<plugin>/
 │   ├── .claude-plugin/plugin.json
-│   ├── .codex-plugin/plugin.json
+│   ├── plugin.json            # portable manifest (Codex)
 │   ├── manuals.json
 │   ├── scripts/               # synced copies of shared/ + plugin-specific scripts
 │   └── skills/<skill>/{SKILL.md, reference/*.md}
@@ -90,12 +90,13 @@ Centroid-AI/
 ### Manifests and catalogs
 
 - Each plugin's two manifests carry the same `name`, `version`, `description`, `author`,
-  `homepage`, `repository`, `license` (`MIT`), `keywords`. The Codex manifest adds
+  `homepage`, `repository`, `license` (`MIT`), `keywords`. The portable root `plugin.json`
+  adds `"$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"` and
   `extensions.com.openai.interface` (`displayName`, `shortDescription`, `category`).
 - The two marketplace files list the same plugins. Claude entries use
   `"source": "./plugins/<name>"`; Codex entries use
-  `{"source": "local", "path": "./plugins/<name>"}`, `policy.installation: "AVAILABLE"`,
-  and a `category`.
+  `{"source": "local", "path": "./plugins/<name>"}`, `policy: {"installation": "AVAILABLE", "authentication": "ON_INSTALL"}`, and a
+  `category`; the Codex catalog also has `interface.displayName`.
 - `tools/check_marketplace.py` fails when: the catalogs' plugin sets differ; an entry name
   differs from its manifest `name`; the two manifests of a plugin disagree on name or version;
   a `source` path does not exist; a plugin has no skills.
