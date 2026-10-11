@@ -5,6 +5,11 @@ description: Use when the user wants to tidy or reformat a Centroid CNC12 PLC .s
 
 # Format a Centroid PLC program
 
+This runs on the user's own computer and checks its work with Centroid's compiler, so it needs
+that computer, with CNC12 (or a copy of `mpucomp.exe`) on it. In a web chat (Claude web chat or
+ChatGPT) say so plainly and suggest running it in Claude Code, Codex or the Claude Desktop app on
+that computer.
+
 On Windows, use `py -3` (or `python`) if `python3` is not found.
 
 1. Check first: `python3 <plugin>/scripts/plcfmt.py <file.src>` (`<plugin>` is this plugin's
