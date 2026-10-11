@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_URL = "https://github.com/TD-4242/Centroid-AI"
+FORBIDDEN_SUFFIXES = (".exe", ".plc", ".pyc")
 CATALOGS = (Path(".claude-plugin/marketplace.json"), Path(".agents/plugins/marketplace.json"))
 
 
@@ -36,19 +37,27 @@ def _catalog_names(root, rel):
 
 
 def _files(root, plugin):
-    # Tracked plus untracked-but-not-ignored files, so ignored binaries (*.exe, *.plc) never ship.
+    """Tracked plus untracked-but-unignored files; refuses symlinks and compiled binaries."""
     listing = _git(root, "ls-files", "-z", "--cached", "--others", "--exclude-standard", "--", f"plugins/{plugin}")
+    files = []
     for rel in sorted(set(filter(None, listing.split("\0")))):
         path = root / rel
-        if path.is_file():
-            yield path
+        if path.is_symlink():
+            raise ExportError(f"{rel} is a symlink; replace it with a real file to export", 2)
+        if not path.is_file():
+            continue  # tracked but deleted in the working tree
+        if path.suffix.lower() in FORBIDDEN_SUFFIXES or "__pycache__" in path.parts:
+            raise ExportError(f"{rel} must not be shipped; remove it from git to export", 2)
+        files.append(path)
+    return files
 
 
 def export(root, plugin, out, allow_dirty=False, now=None):
     """Write <out>/<plugin>-<version>-<shortsha>.zip and return its path.
 
-    Raises ExportError: code 2 for an unknown plugin or a non-git tree, code 1 when
-    plugins/<plugin> has uncommitted changes and allow_dirty is false.
+    Raises ExportError: code 2 for an unknown plugin, a non-git tree, an --out inside the
+    plugin, or a symlink or compiled binary in it; code 1 when plugins/<plugin> has
+    uncommitted changes and allow_dirty is false.
     """
     root = Path(root)
     if not all(plugin in _catalog_names(root, rel) for rel in CATALOGS):
@@ -66,10 +75,13 @@ def export(root, plugin, out, allow_dirty=False, now=None):
     source = (f"repository: {REPO_URL}\nplugin: {plugin}\nversion: {version}\n"
               f"commit: {sha}\nexported: {stamp}\ndirty: {str(dirty).lower()}\n")
     out = Path(out)
+    if out.resolve().is_relative_to(pdir.resolve()):
+        raise ExportError(f"--out {out} is inside plugins/{plugin}; choose a folder outside it", 2)
+    files = _files(root, plugin)
     out.mkdir(parents=True, exist_ok=True)
     zip_path = out / f"{plugin}-{version}-{sha[:7]}.zip"
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
-        for path in _files(root, plugin):
+        for path in files:
             zf.write(path, f"{plugin}/{path.relative_to(pdir).as_posix()}")
         zf.writestr(f"{plugin}/SOURCE.txt", source)
     return zip_path

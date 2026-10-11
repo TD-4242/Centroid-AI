@@ -114,6 +114,39 @@ class ExportPluginTest(unittest.TestCase):
         self.assertIn("centroid-a/skills/s1/reference/new.md", names)
         self.assertNotIn("centroid-a/scripts/x.py", names)
 
+    def test_force_added_binary_refused(self):
+        with open(self.root / ".gitignore", "a", encoding="utf-8") as f:
+            f.write("*.exe\n")
+        write(self.pdir / "bin" / "mpucomp.exe", "binary")
+        git(self.root, "add", "-f", "plugins/centroid-a/bin/mpucomp.exe")
+        git(self.root, "commit", "-qm", "oops")
+        with self.assertRaises(ep.ExportError) as ctx:
+            self.export()
+        self.assertEqual(ctx.exception.code, 2)
+        self.assertIn("mpucomp.exe", str(ctx.exception))
+
+    @unittest.skipUnless(hasattr(Path, "symlink_to"), "no symlinks")
+    def test_tracked_symlink_refused(self):
+        secret = write(self.root.parent / f"{self.root.name}-outside.txt", "secret")
+        self.addCleanup(secret.unlink)
+        try:
+            (self.pdir / "link.txt").symlink_to(secret)
+        except OSError:
+            self.skipTest("cannot create symlinks here")
+        git(self.root, "add", "plugins/centroid-a/link.txt")
+        git(self.root, "commit", "-qm", "link")
+        with self.assertRaises(ep.ExportError) as ctx:
+            self.export()
+        self.assertEqual(ctx.exception.code, 2)
+        self.assertIn("symlink", str(ctx.exception))
+
+    def test_out_inside_plugin_refused(self):
+        self.out = self.pdir / "dist"
+        with self.assertRaises(ep.ExportError) as ctx:
+            self.export(allow_dirty=True)
+        self.assertEqual(ctx.exception.code, 2)
+        self.assertFalse(self.out.exists())
+
     def test_unknown_plugin(self):
         with self.assertRaises(ep.ExportError) as ctx:
             self.export("nope")
