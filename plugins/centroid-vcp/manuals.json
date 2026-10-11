@@ -1,0 +1,6 @@
+[
+  { "id": "vcp-manual", "title": "VCP 2.0 Users Manual", "citeAs": "VCP Manual",
+    "url": "https://www.centroidcnc.com/centroid_diy/downloads/centroid_vcp_users_manual.pdf",
+    "file": "centroid_vcp_users_manual.pdf", "expectRev": "rev28",
+    "expectPages": 64, "pdfOffset": 0, "sizeMB": 12 }
+]
