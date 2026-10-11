@@ -5,6 +5,8 @@ description: Use when the user wants to tidy or reformat a Centroid CNC12 PLC .s
 
 # Format a Centroid PLC program
 
+On Windows, use `py -3` (or `python`) if `python3` is not found.
+
 1. Check first: `python3 <plugin>/scripts/plcfmt.py <file.src>` (`<plugin>` is this plugin's
    root). Exit 1 prints the diff it would make; exit 0 means already formatted. Naming findings
    on stderr are advice only and are never auto-changed.

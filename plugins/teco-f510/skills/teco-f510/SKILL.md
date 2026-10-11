@@ -80,17 +80,20 @@ latest edition of the F510 Instruction Manual for the drive in hand.
 This skill cites: F510 Manual (F510 Instruction Manual), ALLIN1DC Install (ALLIN1DC Installation
 Manual), PLC Manual (CNC12 PLC Programming Manual). F510 Manual and PLC Manual citations are PDF
 pages (F510 section numbers are the manual's own); ALLIN1DC Install citations are the manual's
-printed "Page N of 88", used as PDF pages. Exact wording is in the official PDF. When an answer
+printed "Page N of 88" footer pages (PDF page = printed + 1). Exact wording is in the official PDF. When an answer
 needs text beyond these references, run `python3 <plugin>/scripts/fetch_manual.py <id>` with
 `f510-manual`, `allin1dc-install` or `plc-manual` (`<plugin>` is this plugin's root directory):
 
 - exit 0: it printed the local PDF path — read the cited page with `pdftotext -layout -f <p> -l <p> <path> -`
   if available, or open the PDF.
 - exit 4: not downloaded yet. Ask the user in plain words, using the requested manual's title and
-  size, e.g. "This is best checked against Centroid's <title> (free PDF, about <sizeMB> MB). Want me to download it to
-  `~/.centroid-ai/manuals/`? I can also do this automatically from now on, or never ask
+  size, e.g. "This is best checked against the <title> (free PDF, about <sizeMB> MB). Want me to download it to
+  the folder it printed after `to:`? I can also do this automatically from now on, or never ask
   again." Yes → rerun with `--yes`. "Always" → `python3 <plugin>/scripts/centroid_config.py set manuals.autoDownload always`, then rerun. "Never" → set `never`.
 - exit 5: the user chose never to download; answer from the references and give the manual and page.
 - exit 1: download failed; give the user the printed URL to download by hand.
+- exit 2: show the printed error line to the user as-is (bad settings file or unknown manual id).
+
+On Windows, use `py -3` (or `python`) if `python3` is not found.
 
 Download links for every manual: https://github.com/TD-4242/Centroid-AI/blob/main/docs/manuals.md

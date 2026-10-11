@@ -37,6 +37,7 @@ Update and remove:
 ## Requirements
 
 - Python 3.10 or newer for the plugin scripts (manual download, compile, format, settings).
+  On Windows, use `py -3` (or `python`) if `python3` is not found.
 - Linux and macOS: [Wine](https://www.winehq.org/) to run `mpucomp.exe` for compile and format.
   If it is missing, the scripts print the install command for your system.
 - A CNC12 install, or a copy of `mpucomp.exe`, for compile and format. The compiler is Centroid's

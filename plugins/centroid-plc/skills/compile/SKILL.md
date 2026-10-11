@@ -8,7 +8,7 @@ description: Use when the user wants to check that a Centroid CNC12 PLC program 
 Run `python3 <plugin>/scripts/plc_compile.py <file.src>` where `<plugin>` is this plugin's root
 (the directory two levels above this file). Add `-v` to list every warning, `-o out.plc` to keep
 the compiled program. If the user did not name a file, look for `*.src` in the project; if
-there are several, ask which one.
+there are several, ask which one. On Windows, use `py -3` (or `python`) if `python3` is not found.
 
 ## Reading the result
 
