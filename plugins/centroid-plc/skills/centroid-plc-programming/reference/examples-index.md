@@ -7,8 +7,11 @@ The PLC Manual's Appendix A prints the complete basic ALLIN1DC program, `allin1d
 ("PLC for MPU11 and allin1dc + keyboard jog") (PLC Manual, PDF p.64-98).
 
 The projects below are from Centroid's sample ALLIN1DC PLC project set (Copyright Centroid
-Corp.), which is not shipped with this plugin. Paths are relative to that set's `_ALLIN1DC/`
-folder; descriptions were taken from each project's source.
+Corp.), which is not shipped with this plugin. No manual gives a download location for it; ask
+Centroid Tech Support (support@centroidcnc.com) or the Centroid forum,
+https://centroidcncforum.com (PLC Manual, PDF p.10-11). Paths are relative to the set's
+`_ALLIN1DC/` folder. Row descriptions come from reading each sample's source and carry no
+manual page.
 
 ## Standard builds
 
@@ -32,16 +35,4 @@ folder; descriptions were taken from each project's source.
 | `_custom/_allin1dc-basic_3rd_axis_brake/cncm/allin1dc-basic_3rd_axis_brake.src` | Basic mill PLC with OUT9 driven as a 3rd-axis electromagnetic brake output; shows brake-release pattern around axis motion |
 | `_custom/allin1dc-basic-v2-with_remote_start/cncm/allin1dc-basic-v2-with_remote_start.src` | Basic mill PLC with INP13 wired as a remote cycle-start input; demonstrates external-trigger → `SV_CYCLE_START` pattern |
 | `_custom/_allin1dc-basic-w-lowrange-reverse/cncm/allin1dc-basic-w-lowrange-reverse.src` | Basic mill PLC with low-range spindle speed and VFD reverse-direction support; shows 12-bit DAC spindle control with range switching |
-| `_custom/_allin1dc-msc_handbrake-mill/cncm/allin1dc-msc_handbrake-mill.src` | MSC mill PLC that stops and prevents the spindle whenever the handbrake (INP13, NC-wired, inverted via P178 bit 3) is engaged |
 | `_custom/_allin1dc-spindle-brake/cncm/allin1dc-spindle-brake-v2.src` | Standard basic PLC with spindle-brake logic on AUX3; `BrakeMode_M` tracks brake state and AUX3 is forced ON at power-up (CNC11 3.16+) |
-| `_custom/_bp-boss-allin1dc-analog/cncm/allin1dc-bp-boss-analog-v3.src` | Bridgeport BOSS mill PLC with analog spindle speed control (pot + speed-up/down solenoids via aux outputs) and spindle brake release |
-| `_custom/_bp-boss-allin1dc/cncm/allin1dc-bp-boss-v4.src` | Bridgeport BOSS mill PLC with standardized I/O schematic; digital-only spindle control, no analog pot; updated I/O mapping Oct 2017 |
-| `_custom/_cptools/cncm/allin1dc-cptools-mill.src` | CP Tools mill PLC with timed spindle brake: P901 = ms delay after spindle off before engaging, P902 = brake hold duration |
-| `_custom/_dm45-allin1dc/cncm/dm45-allin1dc.src` | DM45 drillmill PLC; based on the low-range/reverse variant — demonstrates machine-specific customization of the lowrange-reverse base |
-| `_custom/_forest-scientific-atc-router/cncm/allin1dc-forest-scientific-atc-router.src` | Forest Scientific router PLC with rack-mount ATC tool changer (keyboard jog + tool-change stage); different ATC topology from the umbrella |
-| `_custom/_k100075/cncm/k100075.src` | K100075 custom build: basic mill PLC with 12-bit DAC spindle speed output and multi-range spindle control |
-| `_custom/_k100113/cncm/horizontal/k100113-horizontal.src` | K100113 horizontal mill: dual-spindle output mapping (Spindle1=OUT6/OUT9, Spindle2=OUT7/OUT8), RotaryTableHome on INP7, cross-axis jog-disable on probe fault |
-| `_custom/_k100113/cncm/k100113-vertical.src` | K100113 vertical mill — top-level copy (duplicate of the `vertical/` subdir copy below); vertical spindle output mapping (Spindle2=OUT6, Spindle1=OUT7), no RotaryTableHome |
-| `_custom/_k100113/cncm/vertical/k100113-vertical.src` | K100113 vertical mill — canonical copy stored in `vertical/` subdirectory for deployment; identical logic to the top-level copy above |
-| `_custom/_k100242/cncm/allin1dc-K100242.src` | K100242 custom build: two independent air-spindle outputs controlled by Aux keys and M-codes M13/M23 (auxSpin1 on/off) and M14/M24 (auxSpin2 on/off) |
-| `_custom/_k100374/cncm/allin1dc-100374.src` | K100374 custom build: adds spindle speed-up/down relay outputs, drawbar output, and spindle brake to the standard basic mill PLC |

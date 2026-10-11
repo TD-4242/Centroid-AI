@@ -78,18 +78,20 @@ consistent style, use the `format` skill.
 
 ## Manuals
 
-This skill cites: PLC Manual (CNC12 PLC Programming Manual), and for macro variables and Acorn
-I/O also Router Manual (CNC12 Router Operators Manual) and Acorn Install (Acorn Installation
-Manual). Exact wording is in the official PDF. When an answer needs text beyond these
-references, run `python3 <plugin>/scripts/fetch_manual.py plc-manual`
-(`<plugin>` is this plugin's root directory):
+This skill cites: PLC Manual (CNC12 PLC Programming Manual), Router Manual (CNC12 Router
+Operators Manual), Acorn Install (Acorn Installation Manual). PLC Manual citations are PDF
+pages; Router Manual and Acorn Install citations are printed pages (PDF page = printed + 1).
+Exact wording is in the official PDF. When an answer needs text beyond these references, run
+`python3 <plugin>/scripts/fetch_manual.py <id>` with `plc-manual`, `router-manual` or
+`acorn-install` (`<plugin>` is this plugin's root directory):
 
 - exit 0: it printed the local PDF path — read the cited page with `pdftotext -layout -f <p> -l <p> <path> -`
   if available, or open the PDF.
 - exit 4: not downloaded yet. Ask the user in plain words, e.g. "This is best checked against
-  Centroid's CNC12 PLC Programming Manual (free PDF, about 3 MB). Want me to download it to
+  Centroid's <title> (free PDF, about <sizeMB> MB). Want me to download it to
   `~/.centroid-ai/manuals/`? I can also do this automatically from now on, or never ask
   again." Yes → rerun with `--yes`. "Always" → `python3 <plugin>/scripts/centroid_config.py set manuals.autoDownload always`, then rerun. "Never" → set `never`.
+  Sizes: PLC Manual about 3 MB, Router Manual about 63 MB, Acorn Install about 16 MB.
 - exit 5: the user chose never to download; answer from the references and give the manual and page.
 - exit 1: download failed; give the user the printed URL to download by hand.
 

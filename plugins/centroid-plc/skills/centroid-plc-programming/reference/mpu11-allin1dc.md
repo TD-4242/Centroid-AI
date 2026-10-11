@@ -51,10 +51,10 @@ Aux10Key_I   IS JPI18   ; PLC Manual, PDF p.14
   to axis 3. The drive firmware stops motion in the tripped direction regardless of CNC software
   limit-switch setup (PLC Manual, PDF p.121). The example program names them
   `Ax1_MinusLimitOk` (`INP1`) through `Ax3_PlusLimitOk` (`INP6`) (PLC Manual, PDF p.65-66).
-- Each ALLIN1DC reserves 16 inputs and 16 outputs, but only 16 inputs and 9 outputs exist in
-  hardware; outputs 10-16 are unavailable. All 16 inputs can be configured in banks of 4 for 5,
-  12 or 24VDC, sourcing or sinking. A PLCADD1616 expansion board's inputs begin at input 17
-  (PLC Manual, PDF p.65-67).
+- Each ALLIN1DC reserves 16 inputs and 16 outputs, but only 16 inputs and 9 outputs are
+  accessible through hardware, so outputs 10-16 are not accessible through hardware. All 16
+  inputs can be configured in banks of 4 for 5, 12 or 24VDC, sourcing or sinking. A PLCADD1616
+  expansion board's inputs begin at input 17 (PLC Manual, PDF p.64-67, p.121).
 - Outputs 1-7 are SPST relays and outputs 8-9 are SPDT relays (PLC Manual, PDF p.64).
 - The single 12-bit analog input is mapped to `INP241`-`INP252`, LSB = `INP241`, configurable
   for 0-5V, 0-10V, -5 to +5V or -10 to +10V (PLC Manual, PDF p.64).
@@ -70,7 +70,7 @@ Manual, PDF p.121).
 `INP769`-`INP784` are the MPU11 onboard inputs, generally used for MPG and probing (PLC Manual,
 PDF p.31, p.66). The example program's header lists 4 high-speed inputs `INP769`-`INP772` for
 probe/TT1 functions, 3 auxiliary inputs `INP784`-`INP786`, 11 inputs for MPG increment and axis
-selection, and 2 auxiliary outputs `OUT770`-`OUT771` (PLC Manual, PDF p.65). Its definitions
+selection, and 2 auxiliary outputs `OUT770`-`OUT771` (PLC Manual, PDF p.64). Its definitions
 (PLC Manual, PDF p.66-67):
 
 ```
