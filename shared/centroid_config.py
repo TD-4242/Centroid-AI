@@ -1,0 +1,80 @@
+#!/usr/bin/env python3
+"""Read and write ~/.centroid-ai/config.json, shared by every Centroid-AI plugin."""
+import copy
+import json
+import os
+import sys
+from pathlib import Path
+
+DEFAULTS = {"manuals": {"autoDownload": "ask", "dir": None}, "mpucomp": {"path": None}}
+AUTO_DOWNLOAD = ("ask", "always", "never")
+
+
+def home():
+    return Path(os.environ.get("CENTROID_AI_HOME") or Path.home() / ".centroid-ai")
+
+
+def config_path():
+    return home() / "config.json"
+
+
+def load():
+    cfg = copy.deepcopy(DEFAULTS)
+    try:
+        data = json.loads(config_path().read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return cfg
+    except json.JSONDecodeError as e:
+        raise ValueError(f"{config_path()} is not valid JSON ({e.msg}, line {e.lineno}); "
+                         "fix or delete it") from None
+    for section, values in data.items():
+        if isinstance(values, dict) and isinstance(cfg.get(section), dict):
+            cfg[section].update(values)
+        else:
+            cfg[section] = values
+    return cfg
+
+
+def set_value(key, value):
+    if key == "manuals.autoDownload" and value not in AUTO_DOWNLOAD:
+        raise ValueError(f"manuals.autoDownload must be one of {', '.join(AUTO_DOWNLOAD)}")
+    section, _, name = key.partition(".")
+    if not name:
+        raise ValueError(f"key must look like section.name, got {key!r}")
+    cfg = load()
+    cfg.setdefault(section, {})[name] = value
+    path = config_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
+    os.replace(tmp, path)
+
+
+def manuals_dir():
+    env = os.environ.get("CENTROID_AI_MANUALS")
+    if env:
+        return Path(env).expanduser()
+    configured = load()["manuals"].get("dir")
+    return Path(configured).expanduser() if configured else home() / "manuals"
+
+
+def main(argv):
+    try:
+        if argv[:1] == ["show"]:
+            print(json.dumps(load(), indent=2))
+        elif len(argv) == 2 and argv[0] == "get":
+            section, _, name = argv[1].partition(".")
+            print(json.dumps(load().get(section, {}).get(name)))
+        elif len(argv) == 3 and argv[0] == "set":
+            set_value(argv[1], None if argv[2] == "null" else argv[2])
+        else:
+            print("usage: centroid_config.py show | get <key> | set <key> <value>", file=sys.stderr)
+            return 2
+    except ValueError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))
