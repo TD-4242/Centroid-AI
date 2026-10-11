@@ -1,0 +1,10 @@
+{
+  "name": "teco-f510",
+  "version": "0.1.0",
+  "description": "Set up, wire, tune and troubleshoot a TECO-Westinghouse F510 VFD driving a CNC spindle.",
+  "author": { "name": "Bill Warner" },
+  "homepage": "https://github.com/TD-4242/Centroid-AI",
+  "repository": "https://github.com/TD-4242/Centroid-AI",
+  "license": "MIT",
+  "keywords": ["teco", "f510", "vfd", "spindle"]
+}

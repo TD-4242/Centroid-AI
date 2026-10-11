@@ -11,6 +11,8 @@
     { "name": "centroid-acorn", "source": { "source": "local", "path": "./plugins/centroid-acorn" },
       "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" }, "category": "Manufacturing" },
     { "name": "centroid-allin1dc", "source": { "source": "local", "path": "./plugins/centroid-allin1dc" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" }, "category": "Manufacturing" },
+    { "name": "teco-f510", "source": { "source": "local", "path": "./plugins/teco-f510" },
       "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" }, "category": "Manufacturing" }
   ]
 }
