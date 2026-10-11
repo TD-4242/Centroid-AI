@@ -1,6 +1,6 @@
 # Centroid AI
 
-Skills and tools that help AI coding assistants (Claude Code and Codex) work with Centroid
+Skills and tools that help AI assistants (Claude Code, Codex and the Claude app) work with Centroid
 CNC12 controls: PLC programming, the Virtual Control Panel, CNC12 operation, Acorn and
 ALLIN1DC installation, and the TECO F510 spindle drive. Everything is generic - nothing here
 is tied to one machine. Not affiliated with Centroid or TECO-Westinghouse.
@@ -16,7 +16,11 @@ is tied to one machine. Not affiliated with Centroid or TECO-Westinghouse.
 
     codex plugin marketplace add TD-4242/Centroid-AI
 
-then install plugins from the Plugins directory. Full steps: [docs/installing.md](docs/installing.md).
+then install plugins from the Plugins directory.
+
+**Claude app and Cowork:** add the marketplace from *Customize → Plugins*; see
+[Claude app and Cowork](docs/installing.md#claude-app-and-cowork). **ChatGPT** is in pilot:
+[ChatGPT (pilot)](docs/installing.md#chatgpt-pilot). Full steps: [docs/installing.md](docs/installing.md).
 
 ## Plugins
 
