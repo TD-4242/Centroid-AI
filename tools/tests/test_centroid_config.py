@@ -53,6 +53,24 @@ class ConfigTest(unittest.TestCase):
         self.assertIn("config.json is not valid JSON", err.getvalue())
         self.assertNotIn("Traceback", err.getvalue())
 
+    def test_top_level_not_object_is_one_line_error(self):
+        write(self.home / "config.json", "[1, 2]")
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            self.assertEqual(cc.main(["show"]), 2)
+        self.assertIn("config.json must be a JSON object", err.getvalue())
+        self.assertNotIn("Traceback", err.getvalue())
+
+    def test_section_not_object_is_rejected(self):
+        write(self.home / "config.json", '{"manuals": "x"}')
+        with self.assertRaises(ValueError):
+            cc.manuals_dir()
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            self.assertEqual(cc.main(["show"]), 2)
+        self.assertIn("section 'manuals' must be a JSON object", err.getvalue())
+        self.assertNotIn("Traceback", err.getvalue())
+
     def test_cli_set_null(self):
         cc.main(["set", "mpucomp.path", "X"])
         cc.main(["set", "mpucomp.path", "null"])

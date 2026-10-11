@@ -27,8 +27,13 @@ def load():
     except json.JSONDecodeError as e:
         raise ValueError(f"{config_path()} is not valid JSON ({e.msg}, line {e.lineno}); "
                          "fix or delete it") from None
+    if not isinstance(data, dict):
+        raise ValueError(f"{config_path()} must be a JSON object; fix or delete it")
     for section, values in data.items():
-        if isinstance(values, dict) and isinstance(cfg.get(section), dict):
+        if isinstance(cfg.get(section), dict):
+            if not isinstance(values, dict):
+                raise ValueError(f"{config_path()}: section {section!r} must be a JSON object; "
+                                 "fix or delete it")
             cfg[section].update(values)
         else:
             cfg[section] = values
