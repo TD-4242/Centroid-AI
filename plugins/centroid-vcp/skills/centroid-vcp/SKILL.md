@@ -151,12 +151,12 @@ The manual's own Resources page (VCP Manual p.64):
 
 ## Manuals
 
-This skill cites: VCP Manual (VCP 2.0 Users Manual), Acorn Install (Acorn Installation Manual); its
-few PLC Manual pointers are PDF pages of a manual this plugin does not fetch. VCP Manual citations
-are printed pages, which equal PDF pages; Acorn Install citations are printed pages (PDF page =
-printed + 1). Exact wording is in the official PDF. When an answer needs text beyond these
-references, run `python3 <plugin>/scripts/fetch_manual.py <id>` with `vcp-manual` or
-`acorn-install` (`<plugin>` is this plugin's root directory):
+This skill cites: VCP Manual (VCP 2.0 Users Manual), Acorn Install (Acorn Installation Manual), PLC
+Manual (CNC12 PLC Programming Manual). VCP Manual citations are printed pages, which equal PDF
+pages; Acorn Install citations are printed pages (PDF page = printed + 1); PLC Manual citations are
+PDF pages. Exact wording is in the official PDF. When an answer needs text beyond these
+references, run `python3 <plugin>/scripts/fetch_manual.py <id>` with `vcp-manual`, `acorn-install`
+or `plc-manual` (`<plugin>` is this plugin's root directory):
 
 - exit 0: it printed the local PDF path — read the cited page with `pdftotext -layout -f <p> -l <p> <path> -`
   if available, or open the PDF.

@@ -3,8 +3,8 @@
     "url": "https://www.centroidcnc.com/downloads/centroid_allin1dc_install_manual.pdf",
     "file": "centroid_allin1dc_install_manual.pdf", "expectRev": "rev22",
     "expectPages": null, "pdfOffset": 0, "sizeMB": null },
-  { "id": "plcexp1616", "title": "PLCEXP1616 Users Manual", "citeAs": "PLCEXP1616 Manual",
-    "url": "https://www.centroidcnc.com/centroid_diy/downloads/centroid_plcexp1616_users_manual.pdf",
-    "file": "centroid_plcexp1616_users_manual.pdf", "expectRev": null,
-    "expectPages": 7, "pdfOffset": 0, "sizeMB": 1 }
+  { "id": "plc-manual", "title": "CNC12 PLC Programming Manual", "citeAs": "PLC Manual",
+    "url": "https://www.centroidcnc.com/centroid_diy/downloads/centroid_plc_programming_manual.pdf",
+    "file": "centroid_plc_programming_manual.pdf", "expectRev": "rev8 07/24/26",
+    "expectPages": 132, "pdfOffset": 0, "sizeMB": 3 }
 ]

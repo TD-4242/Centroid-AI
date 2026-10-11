@@ -76,9 +76,11 @@ Appendix D sheet index: 1 Title · 2 110VAC Direct Rectification · 3 110VAC Ste
 
 ## Manuals
 
-This skill cites: ALLIN1DC Install (ALLIN1DC Installation Manual), PLCEXP1616 Manual (PLCEXP1616 Users Manual); its PLC Manual pointer is for a manual this plugin does not fetch. ALLIN1DC Install citations are the manual's printed "Page N of 88", used as PDF pages; PLCEXP1616 Manual citations are printed pages, which equal PDF pages. Exact wording is in the official PDF. When an answer
-needs text beyond these references, run `python3 <plugin>/scripts/fetch_manual.py <id>` with `allin1dc-install` or `plcexp1616`
-(`<plugin>` is this plugin's root directory):
+This skill cites: ALLIN1DC Install (ALLIN1DC Installation Manual), PLC Manual (CNC12 PLC
+Programming Manual). ALLIN1DC Install citations are the manual's printed "Page N of 88", used as PDF
+pages; PLC Manual citations are PDF pages. Exact wording is in the official PDF. When an answer
+needs text beyond these references, run `python3 <plugin>/scripts/fetch_manual.py <id>` with
+`allin1dc-install` or `plc-manual` (`<plugin>` is this plugin's root directory):
 
 - exit 0: it printed the local PDF path — read the cited page with `pdftotext -layout -f <p> -l <p> <path> -`
   if available, or open the PDF.

@@ -82,9 +82,13 @@ table; the top-level links (Acorn Install p.5; App C, p.118):
 
 ## Manuals
 
-This skill cites: Acorn Install (Acorn Installation Manual), Pairing Guide (Acorn Axis Pairing and Squaring); its PLC Manual and Router Manual pointers are for manuals this plugin does not fetch. Acorn Install citations are printed pages (PDF page = printed + 1); Pairing Guide citations are printed pages, which equal PDF pages. Exact wording is in the official PDF. When an answer
-needs text beyond these references, run `python3 <plugin>/scripts/fetch_manual.py <id>` with `acorn-install` or `pairing-guide`
-(`<plugin>` is this plugin's root directory):
+This skill cites: Acorn Install (Acorn Installation Manual), Pairing Guide (Acorn Axis Pairing and
+Squaring), PLC Manual (CNC12 PLC Programming Manual), Router Manual (CNC12 Router Operators Manual).
+Acorn Install and Router Manual citations are printed pages (PDF page = printed + 1); Pairing Guide
+citations are printed pages, which equal PDF pages; PLC Manual citations are PDF pages. Exact
+wording is in the official PDF. When an answer needs text beyond these references, run
+`python3 <plugin>/scripts/fetch_manual.py <id>` with `acorn-install`, `pairing-guide`,
+`plc-manual` or `router-manual` (`<plugin>` is this plugin's root directory):
 
 - exit 0: it printed the local PDF path — read the cited page with `pdftotext -layout -f <p> -l <p> <path> -`
   if available, or open the PDF.

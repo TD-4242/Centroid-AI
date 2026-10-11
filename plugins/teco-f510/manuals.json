@@ -2,5 +2,13 @@
   { "id": "f510-manual", "title": "F510 Instruction Manual", "citeAs": "F510 Manual",
     "url": "https://www.tecowestinghouse.com/Manuals/F510_instruction_manual.pdf",
     "file": "teco-f510-instruction-manual.pdf", "expectRev": "TECO-F510IM Ver 01 2017.12",
-    "expectPages": 438, "pdfOffset": 0, "sizeMB": 13 }
+    "expectPages": 438, "pdfOffset": 0, "sizeMB": 13 },
+  { "id": "allin1dc-install", "title": "ALLIN1DC Installation Manual", "citeAs": "ALLIN1DC Install",
+    "url": "https://www.centroidcnc.com/downloads/centroid_allin1dc_install_manual.pdf",
+    "file": "centroid_allin1dc_install_manual.pdf", "expectRev": "rev22",
+    "expectPages": null, "pdfOffset": 0, "sizeMB": null },
+  { "id": "plc-manual", "title": "CNC12 PLC Programming Manual", "citeAs": "PLC Manual",
+    "url": "https://www.centroidcnc.com/centroid_diy/downloads/centroid_plc_programming_manual.pdf",
+    "file": "centroid_plc_programming_manual.pdf", "expectRev": "rev8 07/24/26",
+    "expectPages": 132, "pdfOffset": 0, "sizeMB": 3 }
 ]

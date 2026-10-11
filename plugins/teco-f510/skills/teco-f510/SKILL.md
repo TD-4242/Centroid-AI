@@ -77,9 +77,12 @@ latest edition of the F510 Instruction Manual for the drive in hand.
 
 ## Manuals
 
-This skill cites: F510 Manual (F510 Instruction Manual); its ALLIN1DC Install and PLC Manual pointers are for manuals this plugin does not fetch. F510 Manual page citations are PDF pages (section numbers are the manual's own). Exact wording is in the official PDF. When an answer
-needs text beyond these references, run `python3 <plugin>/scripts/fetch_manual.py <id>` with `f510-manual`
-(`<plugin>` is this plugin's root directory):
+This skill cites: F510 Manual (F510 Instruction Manual), ALLIN1DC Install (ALLIN1DC Installation
+Manual), PLC Manual (CNC12 PLC Programming Manual). F510 Manual and PLC Manual citations are PDF
+pages (F510 section numbers are the manual's own); ALLIN1DC Install citations are the manual's
+printed "Page N of 88", used as PDF pages. Exact wording is in the official PDF. When an answer
+needs text beyond these references, run `python3 <plugin>/scripts/fetch_manual.py <id>` with
+`f510-manual`, `allin1dc-install` or `plc-manual` (`<plugin>` is this plugin's root directory):
 
 - exit 0: it printed the local PDF path — read the cited page with `pdftotext -layout -f <p> -l <p> <path> -`
   if available, or open the PDF.

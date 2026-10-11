@@ -26,8 +26,7 @@ control CPU, integrated PLC, and spindle control.
   shielded Ethernet.
 - **Expansion:** up to 4 I/O expansion boards in any combination (up to ~80 IN / 73 OUT),
   e.g. PLCADD1616 (16 IN / 16 relay OUT), Add4AD4DA (4 D→A out / 4 A→D in),
-  PLCADD6464 (64 IN / 64 open-collector OUT). The PLCEXP1616 is a different board, for
-  SCOUT-protocol (MPU12/AcornSix) controls, not the MPU11 (PLCEXP1616 Manual, p.1).
+  PLCADD6464 (64 IN / 64 open-collector OUT).
 
 ## What's included (Ch1) — part numbers
 
