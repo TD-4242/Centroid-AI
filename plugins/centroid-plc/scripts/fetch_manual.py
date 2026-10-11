@@ -8,6 +8,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import urllib.request
 from pathlib import Path
 
@@ -24,18 +25,24 @@ PAGE_RE = re.compile(rb"/Type\s*/Page(?![a-zA-Z])")
 
 def download(url, dest):
     dest.parent.mkdir(parents=True, exist_ok=True)
-    part = dest.with_name(dest.name + ".part")
+    fd, name = tempfile.mkstemp(prefix=dest.name + ".", suffix=".part", dir=dest.parent)
+    part = Path(name)
     try:
-        with urlopen(urllib.request.Request(url, headers=HEADERS), timeout=120) as resp, \
-                open(part, "wb") as out:
+        with os.fdopen(fd, "wb") as out, \
+                urlopen(urllib.request.Request(url, headers=HEADERS), timeout=120) as resp:
             shutil.copyfileobj(resp, out)
-        with open(part, "rb") as f:
-            if f.read(5) != b"%PDF-":
-                raise OSError("the server did not return a PDF")
-        os.replace(part, dest)
+            expected = resp.headers.get("Content-Length")
+        data = part.read_bytes()
+        if expected and expected.isdigit() and len(data) != int(expected):
+            raise OSError("download was incomplete")
+        if not data.startswith(b"%PDF-"):
+            raise OSError("the server did not return a PDF")
+        if b"%%EOF" not in data.rstrip()[-1024:]:
+            raise OSError("download looks truncated")
+        if not dest.exists():
+            os.replace(part, dest)
     finally:
-        if part.exists():
-            part.unlink()
+        part.unlink(missing_ok=True)
 
 
 def count_pages(path):
