@@ -45,6 +45,12 @@ def load():
 def set_value(key, value):
     if key == "manuals.autoDownload" and value not in AUTO_DOWNLOAD:
         raise ValueError(f"manuals.autoDownload must be one of {', '.join(AUTO_DOWNLOAD)}")
+    if key == "mpucomp.trusted":
+        if value is None:
+            value = []
+        elif not isinstance(value, list):
+            raise ValueError("use `centroid_config.py trust <path>` to add a compiler; "
+                             "`set mpucomp.trusted null` clears the list")
     section, _, name = key.partition(".")
     if not name:
         raise ValueError(f"key must look like section.name, got {key!r}")
@@ -62,6 +68,8 @@ def _norm(path):
 
 
 def trust_compiler(path):
+    if not Path(path).expanduser().is_file():
+        raise ValueError(f"{path} is not an existing file")
     trusted = load()["mpucomp"]["trusted"]
     if not is_trusted(path):
         set_value("mpucomp.trusted", [*trusted, str(Path(path).expanduser().resolve())])

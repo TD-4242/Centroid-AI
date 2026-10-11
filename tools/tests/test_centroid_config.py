@@ -96,8 +96,9 @@ class ConfigTest(unittest.TestCase):
 
     def test_trusted_compares_case_insensitively_on_windows(self):
         with mock.patch.object(cc.os.path, "normcase", str.lower):
-            cc.trust_compiler("/X/Mpucomp.exe")
-            self.assertTrue(cc.is_trusted("/x/mpucomp.exe"))
+            exe = write(Path(self._tmp.name) / "Mpucomp.exe", "MZ")
+            cc.trust_compiler(exe)
+            self.assertTrue(cc.is_trusted(str(exe).upper()))
 
     def test_trusted_not_a_list_is_rejected(self):
         write(self.home / "config.json", '{"mpucomp": {"trusted": "x"}}')
@@ -110,8 +111,32 @@ class ConfigTest(unittest.TestCase):
         self.assertNotIn("Traceback", err.getvalue())
 
     def test_cli_trust(self):
-        self.assertEqual(cc.main(["trust", "/some/mpucomp.exe"]), 0)
-        self.assertTrue(cc.is_trusted("/some/mpucomp.exe"))
+        exe = write(Path(self._tmp.name) / "mpucomp.exe", "MZ")
+        self.assertEqual(cc.main(["trust", str(exe)]), 0)
+        self.assertTrue(cc.is_trusted(exe))
+
+    def test_trust_rejects_missing_file(self):
+        missing = Path(self._tmp.name) / "nope.exe"
+        with self.assertRaises(ValueError) as ctx:
+            cc.trust_compiler(missing)
+        self.assertIn(str(missing), str(ctx.exception))
+        self.assertEqual(cc.main(["trust", str(missing)]), 2)
+        self.assertEqual(cc.load()["mpucomp"]["trusted"], [])
+
+    def test_set_trusted_null_clears_list(self):
+        exe = write(Path(self._tmp.name) / "mpucomp.exe", "MZ")
+        cc.trust_compiler(exe)
+        self.assertEqual(cc.main(["set", "mpucomp.trusted", "null"]), 0)
+        self.assertEqual(cc.load()["mpucomp"]["trusted"], [])
+
+    def test_set_trusted_non_list_is_rejected_and_config_stays_loadable(self):
+        with self.assertRaises(ValueError) as ctx:
+            cc.set_value("mpucomp.trusted", "foo")
+        self.assertIn("centroid_config.py trust", str(ctx.exception))
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            self.assertEqual(cc.main(["set", "mpucomp.trusted", "foo"]), 2)
+        self.assertEqual(cc.load()["mpucomp"]["trusted"], [])
 
 
 if __name__ == "__main__":
