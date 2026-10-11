@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "centroid-plc",
+  "version": "0.1.0",
+  "description": "Write, read and debug Centroid CNC12 PLC programs (MPU11/ALLIN1DC and Acorn), and compile-check or format .src files with Centroid's own compiler.",
+  "author": { "name": "Bill Warner" },
+  "homepage": "https://github.com/TD-4242/Centroid-AI",
+  "repository": "https://github.com/TD-4242/Centroid-AI",
+  "license": "MIT",
+  "keywords": ["centroid", "cnc12", "plc", "mpu11", "acorn"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Centroid PLC",
+        "shortDescription": "Write, read and debug Centroid CNC12 PLC programs (MPU11/ALLIN1DC and Acorn), and compile-check or format .src files with Centroid's own compiler.",
+        "category": "Manufacturing"
+      }
+    }
+  }
+}

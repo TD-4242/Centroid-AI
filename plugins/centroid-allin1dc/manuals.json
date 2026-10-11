@@ -1,0 +1,10 @@
+[
+  { "id": "allin1dc-install", "title": "ALLIN1DC Installation Manual", "citeAs": "ALLIN1DC Install",
+    "url": "https://www.centroidcnc.com/downloads/centroid_allin1dc_install_manual.pdf",
+    "file": "centroid_allin1dc_install_manual.pdf", "expectRev": "rev22",
+    "expectPages": 125, "pdfOffset": 1, "sizeMB": 32 },
+  { "id": "plc-manual", "title": "CNC12 PLC Programming Manual", "citeAs": "PLC Manual",
+    "url": "https://www.centroidcnc.com/centroid_diy/downloads/centroid_plc_programming_manual.pdf",
+    "file": "centroid_plc_programming_manual.pdf", "expectRev": "rev8 07/24/26",
+    "expectPages": 132, "pdfOffset": 0, "sizeMB": 3 }
+]

@@ -1,0 +1,10 @@
+{
+  "name": "centroid-vcp",
+  "version": "0.1.0",
+  "description": "Customize the Centroid CNC12 Virtual Control Panel: buttons, skins, graphics, LED states and PLC-wired actions.",
+  "author": { "name": "Bill Warner" },
+  "homepage": "https://github.com/TD-4242/Centroid-AI",
+  "repository": "https://github.com/TD-4242/Centroid-AI",
+  "license": "MIT",
+  "keywords": ["centroid", "cnc12", "vcp"]
+}
