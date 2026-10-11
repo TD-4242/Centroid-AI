@@ -14,7 +14,7 @@ Source: install manual Ch3, Ch4, and Appendix A. CNC12 screens are images in the
   and 3rd-party firewall software, then reboot.** Nearly 100% of CNC12↔ALLIN1DC comm
   problems are caused by AV/firewall software. The built-in Windows firewall is fine if
   you allow access as the manual specifies. If corporate policy requires AV/3rd-party
-  firewall, keep the CNC12 PC **off the network**.
+  firewall, keep the CNC12 PC **off the network** (ALLIN1DC Install §3.1, p.17).
 
 ## CNC12 installation (3.2)
 

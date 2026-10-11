@@ -28,7 +28,7 @@ should **count up when spinning the shaft counter-clockwise**. Repeat per axis.
 6. **Jog each motor while disconnected from the machine** (arrow keys or MDI); confirm
    correct motion; disable increment mode (the **Incr Cont** button must not be lit).
    - *A little "rumbling" when a motor stops is normal (holding position).*
-   - **Run-away / "SV_ Stall Error":** the control doesn't see proper encoder signals (bad
+   - **Run-away / the "SV_ Stall Error" fault (PLC bit `SV_STALL_ERROR`):** the control doesn't see proper encoder signals (bad
      encoder config **or reversed motor power leads** — control commands one way, encoder
      reports the other). Oscillation/singing → PID problem; manual-tune via **TB260**.
      `M93` (MDI) stops motors holding position.

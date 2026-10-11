@@ -59,7 +59,7 @@ decimal point** = an error:
 
 DRO accuracy issues → recalibrate per §6.5 (coarse) and §6.9 (fine); see `commissioning.md`.
 
-## Run-away motor ("SV_ Stall Error", motor "takes off")
+## Run-away motor (the "SV_ Stall Error" fault, PLC bit `SV_STALL_ERROR`; motor "takes off")
 
 The control isn't seeing proper encoder signals — bad encoder config, or **reversed motor
 power leads** (control commands one direction while the encoder reports the other). Check

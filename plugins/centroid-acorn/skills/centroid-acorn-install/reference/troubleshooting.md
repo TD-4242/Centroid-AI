@@ -12,6 +12,13 @@ Source: Acorn Install App B, App C, and the "Useful Technical Resources" list (C
    Private networks, or turn the firewall off entirely via Windows Search ->
    `Windows Defender Firewall` -> `Turn Windows Defender Firewall On or Off` (Acorn Install App B,
    p.115-116; `CNCR.EXE` per Acorn Install §3.4, p.26).
+   - The built-in Windows firewall works fine with CNC12 if access is allowed as in Appendix B,
+     so allowing the programs is the manual's primary path (Acorn Install p.13).
+   - Centroid recommends two Ethernet ports: one for the Acorn (always the PC's built-in port,
+     never a USB adapter) and one for internet access (Acorn Install p.19).
+   - If corporate policy requires anti-virus, a third-party firewall or certain Windows security
+     features, they need special configuration or they will interfere with the control
+     (Acorn Install p.13).
 3. Uninstall (not just disable) any antivirus/antispyware software — it can slow Acorn
    communication even while allowed to run (Acorn Install App B, p.116).
 4. Reboot the CNCPC, power-cycle the Acorn, and restart CNC12, letting any firmware update finish
