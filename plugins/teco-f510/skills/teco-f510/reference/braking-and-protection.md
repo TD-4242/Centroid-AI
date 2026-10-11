@@ -11,12 +11,15 @@ bus; a braking resistor dumps that energy as heat so the bus voltage doesn't tri
 over-voltage. Two hardware tiers:
 
 - **Built-in braking transistor** — inverters rated **230 V ≤ 30 HP** / **460 V ≤ 40 HP**
-  (IP20) have the transistor built in. For braking torque, connect an **external braking
-  resistor** across terminals **`B1`/`P`** and **`B2`**.
-- **External braking unit** — for **230 V > 40 HP** / **460 V > 50 HP** (IP20), add an
+  (IP20) have the transistor built in (Table 11.1, PDF p.413-414). For braking torque, connect an
+  **external braking resistor** across terminals **`B1`/`P`** and **`B2`**.
+- **External braking unit** — for **230 V ≥ 40 HP** / **460 V ≥ 50 HP** (IP20), add an
   external **braking unit** (TECO `JNTBU-230` for 230 V / `JNTBU-430` for 460 V) connected to
   the inverter's **`⊕`/`P`** and **`⊖`/`N`** DC terminals, plus a braking resistor across the
   unit's **`B`-`P0`** terminals.
+  The §11.1 prose (PDF p.413) says "above 230V 40HP / 460V 50HP", but Table 11.1 already
+  lists a braking unit for 230 V 40 HP (JNTBU-230 ×2) and 460 V 50 HP (JNTBU-430 ×2); the table
+  governs.
 
 **Sizing** comes from **Table 11.1** (§11.1) by inverter voltage/HP: it lists the braking-unit
 model & quantity, the resistor part number / spec (W/Ω) / quantity, resistor dimensions,

@@ -22,11 +22,15 @@ and the enclosure (IP20 / NEMA1). Verify the nameplate matches the motor before 
 
 | Terminal | Function |
 | --- | --- |
-| `R/L1`, `S/L2`, `T/L3` | **Input** power supply (three-phase). For single-phase input use `R/L1` and `S/L3`. |
+| `R/L1`, `S/L2`, `T/L3` | **Input** power supply (three-phase). For single-phase input use `R/L1` and `T/L3` (PDF p.6). |
 | `U/T1`, `V/T2`, `W/T3` | **Output** to motor. |
 | `B1/P`, `B2` | External **braking resistor** across `B1/P`–`B2` (on frames with a built-in braking transistor). |
 | `⊕/P`, `⊖/N` | **DC bus**: `B1/P`–`⊖` (or `⊕`–`⊖`) is the DC supply / braking-unit connection. |
 | `E` (⏚) | Protective **ground**. |
+
+The §3.10 table (PDF p.36) says "R/L1 and S/L3", but `S/L3` is not a terminal; the wiring
+warning (PDF p.6) says `R/L1` and `T/L3`, so treat the table as a misprint and confirm against
+the drive's nameplate and model manual.
 
 - **Danger (§1.1):** never connect input power to `U/T1`, `V/T2`, `W/T3` — it destroys the
   inverter. Never connect a braking resistor directly across `P(+)`/`N(-)` (§1.2).
