@@ -25,9 +25,14 @@ the whole repo and requires a manual citation on the same line for cross-plugin 
 
 ## Citing manuals
 
-Cite as `(<Cite as> p.<n>)` using the printed page the skill's readers will see; the offset
-converts it to the PDF viewer's page. Keep this table in sync with [manuals.md](manuals.md) and
-each plugin's `manuals.json`.
+Forms in use:
+
+- PLC Manual: `(PLC Manual, PDF p.<n>)`; its citations are PDF pages.
+- Other manuals: `(<Cite as> §<x.y>, p.<n>)` or `(<Cite as> p.<n>)`, with the printed page the
+  reader sees; the offset below converts it to the PDF viewer's page.
+- Bare `(p.<n>)` is allowed only in a reference file whose header names the manual.
+
+Keep this table in sync with [manuals.md](manuals.md) and each plugin's `manuals.json`.
 
 | Cite as | PDF page = cited page + |
 | --- | --- |
@@ -37,7 +42,7 @@ each plugin's `manuals.json`.
 | Router Manual | 1 |
 | Acorn Install | 1 |
 | Pairing Guide | 0 |
-| ALLIN1DC Install | 0 |
+| ALLIN1DC Install | 1 |
 | F510 Manual | 0 |
 
 ## Adding a plugin
