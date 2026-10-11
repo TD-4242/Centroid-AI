@@ -12,6 +12,8 @@
 
 ## Global Constraints
 
+> Annotated after final review: Desktop chats run code in a cloud sandbox, so the compile, format and install snippets below were corrected to name Claude Code (including Desktop's Code tab) or Codex. PR #4 review also required bumping every changed plugin to 0.1.1 per `docs/authoring.md` § Version bumps.
+
 - Python ≥ 3.10, stdlib only. Run tests with `python3 -m unittest discover -s tools/tests -t .` from the repo root.
 - Comments are 1-2 lines and only clarify confusing code; rationale goes in the commit message.
 - Do not shorten any `shortDescription`; do not edit catalogs or plugin manifests.
@@ -584,8 +586,9 @@ Expected: the paragraph sits after the `exit 2:` bullet and its blank line, foll
 
 ```markdown
 This runs Centroid's compiler on the user's own computer, so it needs that computer, with CNC12
-(or a copy of `mpucomp.exe`) on it. In a web chat (Claude web chat or ChatGPT) say so plainly and
-suggest running it in Claude Code, Codex or the Claude Desktop app on that computer.
+(or a copy of `mpucomp.exe`) on it. In a chat app (Claude web or Desktop chat, or ChatGPT) say so
+plainly and suggest running it in Claude Code (including the Claude Desktop app's Code tab) or
+Codex on that computer.
 
 ```
 
@@ -593,9 +596,9 @@ suggest running it in Claude Code, Codex or the Claude Desktop app on that compu
 
 ```markdown
 This runs on the user's own computer and checks its work with Centroid's compiler, so it needs
-that computer, with CNC12 (or a copy of `mpucomp.exe`) on it. In a web chat (Claude web chat or
-ChatGPT) say so plainly and suggest running it in Claude Code, Codex or the Claude Desktop app on
-that computer.
+that computer, with CNC12 (or a copy of `mpucomp.exe`) on it. In a chat app (Claude web or Desktop
+chat, or ChatGPT) say so plainly and suggest running it in Claude Code (including the Claude
+Desktop app's Code tab) or Codex on that computer.
 
 ```
 
@@ -663,7 +666,8 @@ Notes:
   the chat's network access, and settings in `~/.centroid-ai/` may not last between chats. When
   a skill can't download a manual it gives you the link or asks you to upload the PDF.
 - Compile and format run Centroid's compiler on your own computer, so they need CNC12 (and Wine
-  on Linux or macOS) there, and work only in Claude Code or the Desktop app on that computer.
+  on Linux or macOS) there. Chats in the Claude app, web or Desktop, run code in a cloud sandbox,
+  so use Claude Code (including the Desktop app's Code tab) or Codex on that computer instead.
 
 ## ChatGPT (pilot)
 

@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "centroid-vcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Customize the Centroid CNC12 Virtual Control Panel: buttons, skins, graphics, LED states and PLC-wired actions.",
   "author": { "name": "Bill Warner" },
   "homepage": "https://github.com/TD-4242/Centroid-AI",
