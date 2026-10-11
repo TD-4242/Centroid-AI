@@ -6,5 +6,21 @@
   { "id": "router-manual", "title": "CNC12 Router Operators Manual", "citeAs": "Router Manual",
     "url": "https://www.centroidcnc.com/centroid_diy/downloads/operator_manuals/centroid-cnc12-router-operator-manual.pdf",
     "file": "centroid-cnc12-router-operator-manual.pdf", "expectRev": "CNC12 V5.42+",
-    "expectPages": 511, "pdfOffset": 1, "sizeMB": 63 }
+    "expectPages": 511, "pdfOffset": 1, "sizeMB": 63 },
+  { "id": "acorn-install", "title": "Acorn Installation Manual", "citeAs": "Acorn Install",
+    "url": "https://www.centroidcnc.com/centroid_diy/downloads/acorn_documentation/centroid_acorn_install_manual.pdf",
+    "file": "centroid_acorn_install_manual.pdf", "expectRev": "rev6",
+    "expectPages": 138, "pdfOffset": 1, "sizeMB": 16 },
+  { "id": "pairing-guide", "title": "Acorn Axis Pairing and Squaring", "citeAs": "Pairing Guide",
+    "url": "https://www.centroidcnc.com/centroid_diy/downloads/acorn_documentation/paired_axes_acorn_user_guide.pdf",
+    "file": "paired_axes_acorn_user_guide.pdf", "expectRev": "rev19",
+    "expectPages": 41, "pdfOffset": 0, "sizeMB": 21 },
+  { "id": "plc-manual", "title": "CNC12 PLC Programming Manual", "citeAs": "PLC Manual",
+    "url": "https://www.centroidcnc.com/centroid_diy/downloads/centroid_plc_programming_manual.pdf",
+    "file": "centroid_plc_programming_manual.pdf", "expectRev": "rev8 07/24/26",
+    "expectPages": 132, "pdfOffset": 0, "sizeMB": 3 },
+  { "id": "vcp-manual", "title": "VCP 2.0 Users Manual", "citeAs": "VCP Manual",
+    "url": "https://www.centroidcnc.com/centroid_diy/downloads/centroid_vcp_users_manual.pdf",
+    "file": "centroid_vcp_users_manual.pdf", "expectRev": "rev28",
+    "expectPages": 64, "pdfOffset": 0, "sizeMB": 12 }
 ]

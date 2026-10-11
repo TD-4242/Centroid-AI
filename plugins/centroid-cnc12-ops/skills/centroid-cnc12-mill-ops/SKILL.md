@@ -70,11 +70,12 @@ switches, jog each axis to the home position manually, then press **CYCLE START*
 
 ## Manuals
 
-This skill cites: Mill Manual (CNC12 Milling Machine Operators Manual); bare `(p.N)` citations in
-the reference files are Mill Manual printed pages (PDF page = printed + 1). Its one PLC Manual
-pointer is a PDF page of a manual this plugin does not fetch. Exact wording is in the official PDF.
-When an answer needs text beyond these references, run
-`python3 <plugin>/scripts/fetch_manual.py mill-manual` (`<plugin>` is this plugin's root directory):
+This skill cites: Mill Manual (CNC12 Milling Machine Operators Manual), PLC Manual (CNC12 PLC
+Programming Manual). Mill Manual citations, including bare `(p.N)` in the reference files, are
+printed pages (PDF page = printed + 1); PLC Manual citations are PDF pages. Exact wording is in the
+official PDF. When an answer needs text beyond these references, run
+`python3 <plugin>/scripts/fetch_manual.py <id>` with `mill-manual` or `plc-manual` (`<plugin>` is
+this plugin's root directory):
 
 - exit 0: it printed the local PDF path — read the cited page with `pdftotext -layout -f <p> -l <p> <path> -`
   if available, or open the PDF.

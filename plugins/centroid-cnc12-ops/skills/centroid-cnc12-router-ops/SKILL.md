@@ -86,11 +86,14 @@ and CNC12 messages (Ch 16) -- not for the whole manual.
 
 ## Manuals
 
-This skill cites: Router Manual (CNC12 Router Operators Manual); its few Acorn Install, Pairing
-Guide, PLC Manual and VCP Manual pointers are to manuals this plugin does not fetch. Router Manual
-citations are printed pages (PDF page = printed + 1). Exact wording is in the official PDF. When
-an answer needs text beyond these references, run
-`python3 <plugin>/scripts/fetch_manual.py router-manual` (`<plugin>` is this plugin's root directory):
+This skill cites: Router Manual (CNC12 Router Operators Manual), Acorn Install (Acorn Installation
+Manual), Pairing Guide (Acorn Axis Pairing and Squaring), PLC Manual (CNC12 PLC Programming
+Manual), VCP Manual (VCP 2.0 Users Manual). Router Manual and Acorn Install citations are printed
+pages (PDF page = printed + 1); Pairing Guide and VCP Manual printed pages equal PDF pages; PLC
+Manual citations are PDF pages. Exact wording is in the official PDF. When an answer needs text
+beyond these references, run `python3 <plugin>/scripts/fetch_manual.py <id>` with `router-manual`,
+`acorn-install`, `pairing-guide`, `plc-manual` or `vcp-manual` (`<plugin>` is this plugin's root
+directory):
 
 - exit 0: it printed the local PDF path — read the cited page with `pdftotext -layout -f <p> -l <p> <path> -`
   if available, or open the PDF.
