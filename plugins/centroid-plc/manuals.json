@@ -1,0 +1,6 @@
+[
+  { "id": "plc-manual", "title": "CNC12 PLC Programming Manual", "citeAs": "PLC Manual",
+    "url": "https://www.centroidcnc.com/centroid_diy/downloads/centroid_plc_programming_manual.pdf",
+    "file": "centroid_plc_programming_manual.pdf", "expectRev": "rev8 07/24/26",
+    "expectPages": 132, "pdfOffset": 0, "sizeMB": 3 }
+]

@@ -1,0 +1,27 @@
+---
+name: format
+description: Use when the user wants to tidy or reformat a Centroid CNC12 PLC .src file into one consistent style (aligned "Name IS Resource" definitions, keyword case, comment spacing, continuation alignment), or check whether it needs reformatting. Applies changes only after proving the compiled program is unchanged.
+---
+
+# Format a Centroid PLC program
+
+1. Check first: `python3 <plugin>/scripts/plcfmt.py <file.src>` (`<plugin>` is this plugin's
+   root). Exit 1 prints the diff it would make; exit 0 means already formatted. Naming findings
+   on stderr are advice only and are never auto-changed.
+2. Show the user a summary of the diff and ask before applying.
+3. Apply: `python3 <plugin>/scripts/plcfmt.py --fix <file.src>`. It compiles before and after
+   and keeps the change only if the compiled program is identical; otherwise it restores the
+   original and exits 2.
+
+Exit 3 and the compiler-not-found message work exactly as in the `compile` skill: ask before
+using a compiler found in a CNC12 folder, rerun with `--compiler <path>`, and help a user who
+doesn't know what `mpucomp.exe` is.
+
+**No compiler available:** offer `--fix --no-verify` only after telling the user the change
+will not be checked against the compiled program, and only if they agree.
+
+**Acorn Wizard warning on stderr:** tell the user the Acorn Wizard regenerates this file unless
+its Custom PLC preference is set (see the Acorn section of `centroid-plc-programming`), so
+formatting it may be pointless. Continue only if they want to.
+
+Files must be ASCII with CRLF line endings, as CNC12 writes them; the script reports otherwise.
