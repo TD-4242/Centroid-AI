@@ -89,5 +89,15 @@ class LocateTest(unittest.TestCase):
         self.assertIn("typo.exe", str(ctx.exception))
 
 
+    def test_needs_confirmation_by_origin_and_trust(self):
+        exe = self.exe(self.project / "mpucomp.exe")
+        for origin, expected in (("explicit", False), ("config", False),
+                                 ("project", True), ("cnc12", True)):
+            self.assertEqual(ml.needs_confirmation(ml.Found(exe, origin)), expected, origin)
+        centroid_config.trust_compiler(exe)
+        self.assertFalse(ml.needs_confirmation(ml.Found(exe, "project")))
+        self.assertFalse(ml.needs_confirmation(ml.Found(exe, "cnc12")))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -13,7 +13,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from mpucomp_locate import locate
+from mpucomp_locate import locate, needs_confirmation
 from plc_compile import NOT_FOUND_HELP, SetupError, compile_src
 
 WIZARD_MARK = "#wizardregion"
@@ -318,7 +318,7 @@ def main(argv=None):
             print("\nTo format without the compiled-program check, rerun with --no-verify "
                   "(the change will not be verified).")
             return 2
-        if found.origin == "cnc12":
+        if needs_confirmation(found):
             print("CONFIRM COMPILER: %s" % found.path)
             return 3
         compiler = found.path

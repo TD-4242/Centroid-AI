@@ -11,7 +11,7 @@ import tempfile
 from pathlib import Path
 from typing import NamedTuple
 
-from mpucomp_locate import locate
+from mpucomp_locate import locate, needs_confirmation
 
 RUNNER = subprocess.run
 FAILED_RE = re.compile(r"Compilation failed|^Error|Error Line", re.IGNORECASE | re.MULTILINE)
@@ -106,7 +106,7 @@ def main(argv):
     if found is None:
         print(NOT_FOUND_HELP)
         return 2
-    if found.origin == "cnc12":
+    if needs_confirmation(found):
         print(f"CONFIRM COMPILER: {found.path}")
         return 3
     print(f"Compiling {args.src.name} with {found.path} ...")

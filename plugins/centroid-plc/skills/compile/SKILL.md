@@ -17,7 +17,7 @@ there are several, ask which one. On Windows, use `py -3` (or `python`) if `pyth
 | 0 | Compiled | Report the warning count; offer `-v` if there are warnings. |
 | 1 | Compile errors | Show the errors with their line numbers and help fix them. |
 | 2 | Setup problem | Show the script's message as-is - it is written for the user (no compiler, no Wine, or no source file). |
-| 3 | Compiler found in a CNC12 folder | Ask: "I found Centroid's PLC compiler at `<path>`. Use it from there? I can remember this location." Yes → rerun with `--compiler <path>`. "Remember" → also run `python3 <plugin>/scripts/centroid_config.py set mpucomp.path <path>`. |
+| 3 | Compiler found in this project or a CNC12 folder, not yet approved | Ask: "I found Centroid's PLC compiler at `<path>`. Use it? Once you approve it I won't ask again for this one." Yes → run `python3 <plugin>/scripts/centroid_config.py trust <path>` and rerun (no `--compiler` needed). No → ask for a different path, or skip compiling. |
 
 ## When the compiler isn't found (exit 2)
 

@@ -53,7 +53,8 @@ Settings live in `~/.centroid-ai/config.json`, shared by every plugin:
 | --- | --- | --- |
 | `manuals.autoDownload` | `ask` (default), `always`, `never` | Whether a skill may download a missing manual |
 | `manuals.dir` | folder path | Where manuals are stored (default `~/.centroid-ai/manuals/`) |
-| `mpucomp.path` | path to `mpucomp.exe` or its folder | Remembered compiler location |
+| `mpucomp.path` | path to `mpucomp.exe` or its folder | Remembered compiler location (used without asking) |
+| `mpucomp.trusted` | list of `mpucomp.exe` paths | Compilers you approved after a skill found them by searching; add one with `centroid_config.py trust <path>` |
 
 Environment variables override the defaults: `CENTROID_AI_HOME` moves the whole `~/.centroid-ai`
 folder, and `CENTROID_AI_MANUALS` sets the manuals folder (taking precedence over `manuals.dir`).
@@ -63,6 +64,7 @@ change an answer later, run (`<plugin>` is any installed plugin's folder):
 
     python3 <plugin>/scripts/centroid_config.py set manuals.autoDownload never
     python3 <plugin>/scripts/centroid_config.py set mpucomp.path /path/to/mpucomp.exe
+    python3 <plugin>/scripts/centroid_config.py trust /path/to/mpucomp.exe
     python3 <plugin>/scripts/centroid_config.py show
 
 `set <key> null` clears a value. A hand-edited `config.json` that is not valid JSON is reported

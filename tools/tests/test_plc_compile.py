@@ -10,6 +10,7 @@ from pathlib import Path
 from tools.tests.helpers import REPO, write
 sys.path.insert(0, str(REPO / "shared"))
 sys.path.insert(0, str(REPO / "plugins" / "centroid-plc" / "scripts"))
+import centroid_config
 import mpucomp_locate
 import plc_compile as pc
 
@@ -71,6 +72,7 @@ class CliTest(unittest.TestCase):
 
     def test_success_reports_warning_count(self):
         self.fake_run(OK_LOG)
+        centroid_config.trust_compiler(self.exe)
         code, out = self.cli()
         self.assertEqual(code, 0)
         self.assertIn("Warnings: 2", out)
@@ -78,6 +80,7 @@ class CliTest(unittest.TestCase):
 
     def test_compile_error_exit_1(self):
         self.fake_run(BAD_LOG)
+        centroid_config.trust_compiler(self.exe)
         code, out = self.cli()
         self.assertEqual(code, 1)
         self.assertIn("Error Line 12", out)
@@ -94,6 +97,28 @@ class CliTest(unittest.TestCase):
         code, out = self.cli()
         self.assertEqual(code, 3)
         self.assertIn("CONFIRM COMPILER: /w/drive_c/cncr/mpucomp.exe", out)
+
+    def test_untrusted_project_hit_needs_confirmation(self):
+        self.fake_run(OK_LOG)
+        code, out = self.cli()
+        self.assertEqual(code, 3)
+        self.assertIn(f"CONFIRM COMPILER: {self.exe.resolve()}", out)
+        self.assertFalse(hasattr(self, "cmd"))
+
+    def test_trusted_project_hit_compiles(self):
+        self.fake_run(OK_LOG)
+        centroid_config.trust_compiler(self.exe)
+        self.assertEqual(self.cli()[0], 0)
+
+    def test_trusted_cnc12_hit_does_not_prompt(self):
+        self.fake_run(OK_LOG)
+        centroid_config.trust_compiler(self.exe)
+        pc.locate = lambda *a, **k: mpucomp_locate.Found(self.exe, "cnc12")
+        self.assertEqual(self.cli()[0], 0)
+
+    def test_explicit_compiler_is_silent(self):
+        self.fake_run(OK_LOG)
+        self.assertEqual(self.cli("--compiler", str(self.exe))[0], 0)
 
     def test_missing_wine_explained(self):
         if os.name == "nt":

@@ -5,6 +5,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from tools.tests.helpers import REPO, write
 sys.path.insert(0, str(REPO / "shared"))
@@ -81,6 +82,36 @@ class ConfigTest(unittest.TestCase):
         cc.main(["set", "mpucomp.path", "X"])
         cc.main(["set", "mpucomp.path", "null"])
         self.assertIsNone(cc.load()["mpucomp"]["path"])
+
+    def test_trust_compiler_dedupes_and_resolves(self):
+        exe = write(Path(self._tmp.name) / "c" / "mpucomp.exe", "MZ")
+        cc.trust_compiler(exe)
+        cc.trust_compiler(exe.parent / ".." / "c" / "mpucomp.exe")
+        self.assertEqual(cc.load()["mpucomp"]["trusted"], [str(exe.resolve())])
+        self.assertTrue(cc.is_trusted(exe))
+        self.assertFalse(cc.is_trusted(Path(self._tmp.name) / "other.exe"))
+
+    def test_trusted_defaults_to_empty(self):
+        self.assertEqual(cc.load()["mpucomp"]["trusted"], [])
+
+    def test_trusted_compares_case_insensitively_on_windows(self):
+        with mock.patch.object(cc.os.path, "normcase", str.lower):
+            cc.trust_compiler("/X/Mpucomp.exe")
+            self.assertTrue(cc.is_trusted("/x/mpucomp.exe"))
+
+    def test_trusted_not_a_list_is_rejected(self):
+        write(self.home / "config.json", '{"mpucomp": {"trusted": "x"}}')
+        with self.assertRaises(ValueError) as ctx:
+            cc.is_trusted("/x")
+        self.assertIn("config.json", str(ctx.exception))
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            self.assertEqual(cc.main(["show"]), 2)
+        self.assertNotIn("Traceback", err.getvalue())
+
+    def test_cli_trust(self):
+        self.assertEqual(cc.main(["trust", "/some/mpucomp.exe"]), 0)
+        self.assertTrue(cc.is_trusted("/some/mpucomp.exe"))
 
 
 if __name__ == "__main__":

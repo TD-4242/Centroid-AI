@@ -16,8 +16,8 @@ On Windows, use `py -3` (or `python`) if `python3` is not found.
    original and exits 2.
 
 Exit 3 and the compiler-not-found message work exactly as in the `compile` skill: ask before
-using a compiler found in a CNC12 folder, rerun with `--compiler <path>`, and help a user who
-doesn't know what `mpucomp.exe` is.
+using a compiler found in this project or a CNC12 folder, run `centroid_config.py trust <path>`
+once they approve and rerun, and help a user who doesn't know what `mpucomp.exe` is.
 
 **No compiler available:** offer `--fix --no-verify` only after telling the user the change
 will not be checked against the compiled program, and only if they agree.

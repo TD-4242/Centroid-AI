@@ -6,7 +6,7 @@ import os
 import sys
 from pathlib import Path
 
-DEFAULTS = {"manuals": {"autoDownload": "ask", "dir": None}, "mpucomp": {"path": None}}
+DEFAULTS = {"manuals": {"autoDownload": "ask", "dir": None}, "mpucomp": {"path": None, "trusted": []}}
 AUTO_DOWNLOAD = ("ask", "always", "never")
 
 
@@ -37,6 +37,8 @@ def load():
             cfg[section].update(values)
         else:
             cfg[section] = values
+    if not isinstance(cfg["mpucomp"].get("trusted"), list):
+        raise ValueError(f"{config_path()}: mpucomp.trusted must be a JSON list; fix or delete it")
     return cfg
 
 
@@ -53,6 +55,20 @@ def set_value(key, value):
     tmp = path.with_suffix(".tmp")
     tmp.write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
     os.replace(tmp, path)
+
+
+def _norm(path):
+    return os.path.normcase(str(Path(path).expanduser().resolve()))
+
+
+def trust_compiler(path):
+    trusted = load()["mpucomp"]["trusted"]
+    if not is_trusted(path):
+        set_value("mpucomp.trusted", [*trusted, str(Path(path).expanduser().resolve())])
+
+
+def is_trusted(path):
+    return _norm(path) in {_norm(t) for t in load()["mpucomp"]["trusted"]}
 
 
 def manuals_dir():
@@ -72,8 +88,11 @@ def main(argv):
             print(json.dumps(load().get(section, {}).get(name)))
         elif len(argv) == 3 and argv[0] == "set":
             set_value(argv[1], None if argv[2] == "null" else argv[2])
+        elif len(argv) == 2 and argv[0] == "trust":
+            trust_compiler(argv[1])
         else:
-            print("usage: centroid_config.py show | get <key> | set <key> <value>", file=sys.stderr)
+            print("usage: centroid_config.py show | get <key> | set <key> <value> | trust <path>",
+                  file=sys.stderr)
             return 2
     except ValueError as e:
         print(f"error: {e}", file=sys.stderr)

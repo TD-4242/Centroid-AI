@@ -65,7 +65,7 @@ Both look for `mpucomp.exe` in this order and stop at the first hit:
 3. Next to the `.src` file, then at the git repository root.
 4. The CNC12 folders `C:\cncm`, `C:\cncr`, `C:\cnct`, `C:\cncp` (on Linux and macOS the same folders under `$WINEPREFIX/drive_c`, default `~/.wine/drive_c`).
 
-A compiler found in a CNC12 folder is used only after you confirm, and you can have the location remembered. The compiler is never copied; it always runs from where it is installed.
+A compiler found by searching (steps 3 and 4) is used only after you confirm it the first time; once approved it is added to `mpucomp.trusted` and never asked about again (`centroid_config.py trust <path>`). `--compiler` and `mpucomp.path` are used silently, since you supplied them. The compiler is never copied; it always runs from where it is installed.
 
 ## Manuals
 

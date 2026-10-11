@@ -411,6 +411,25 @@ def test_confirm_compiler_when_found_in_cnc12_folder():
         plcfmt.locate = orig
 
 
+def test_fix_with_untrusted_project_compiler_confirms_first():
+    with tempfile.TemporaryDirectory() as td:
+        os.environ["CENTROID_AI_HOME"] = os.path.join(td, "home")
+        try:
+            exe = os.path.join(td, "mpucomp.exe")
+            p = os.path.join(td, "x.src")
+            with open(exe, "wb") as f:
+                f.write(b"MZ")
+            with open(p, "wb") as f:
+                f.write(b"if a then b\r\n")
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                assert plcfmt.main(["--fix", p]) == 3
+            assert "CONFIRM COMPILER: %s" % Path(exe).resolve() in out.getvalue()
+            assert _read(p) == b"if a then b\r\n"
+        finally:
+            del os.environ["CENTROID_AI_HOME"]
+
+
 def test_bad_explicit_compiler_exits_2():
     orig = plcfmt.locate
     def bad(*a, **k):

@@ -67,6 +67,10 @@ def locate(src, explicit=None, is_windows=None, wineprefix=None, windows_root=No
     return None
 
 
+def needs_confirmation(found):
+    return found.origin in ("project", "cnc12") and not centroid_config.is_trusted(found.path)
+
+
 def main(argv):
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--src", type=Path)
