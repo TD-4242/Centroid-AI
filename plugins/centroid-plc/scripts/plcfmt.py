@@ -1,26 +1,14 @@
 #!/usr/bin/env python3
 """Format a Centroid CNC12 PLC .src to one canonical style.
 
---fix verifies the compiled program is unchanged using mpucomp.exe.
-
-Gate design (reverse-engineered empirically). Rules touch only whitespace,
-comments, and keyword casing. The .plc is NOT byte-stable (build timestamp) and embeds a full copy of the source
-plus an indentation-mirroring listing, so the binary and most of its four header
-checksums move under harmless formatting. The invariant semantic fingerprint is:
-
-  * the compiled program words -- every line of exactly 8 hex digits;
-  * checksum C2 (2nd) -- source line structure;
-  * checksum C4 (4th) -- the I/O resource map.
-
-Formatting keeps all three identical; a logic edit moves the words, an I/O
-rebind moves C4, a line add/remove moves C2 (and the words). Checksums C1 (raw
-source hash) and C3 (listing/text hash) move under formatting and are ignored.
+Rules touch only whitespace, comments, and keyword casing. --fix keeps the change
+only if the compiled fingerprint (program words, checksums C2 and C4) is unchanged
+under mpucomp.exe; C1 and C3 are ignored because they change with formatting.
 """
 import argparse
 import difflib
 import os
 import re
-import subprocess
 import sys
 import tempfile
 from pathlib import Path
@@ -252,13 +240,12 @@ def verify_compile_identical(path, original, formatted, compiler):
     with tempfile.TemporaryDirectory() as td:
         before = os.path.join(td, "before.plc")
         after = os.path.join(td, "after.plc")
-        _compile(path, before, compiler)                       # original is on disk now
+        _compile(path, before, compiler)
         fp_before = plc_fingerprint(before)
         with open(path, "wb") as f:                 # write candidate
             f.write(formatted.encode("ascii"))
         try:
-            # revert on ANY failure once the candidate is on disk -- compile
-            # error, fingerprint extraction, anything.
+            # Any failure after the candidate is written must restore the original.
             _compile(path, after, compiler)
             fp_after = plc_fingerprint(after)
         except Exception:
@@ -305,8 +292,7 @@ def run(path, fix, verify, compiler=None):
         sys.stdout.writelines(diff)
     for ln, rule, msg in findings:
         sys.stderr.write("%s:%d: [%s] %s\n" % (path, ln, rule, msg))
-    # findings are advisory (they can never be autofixed); only a pending
-    # reformat fails the check, so CI stays green on a formatted file.
+    # Findings are advisory; only a pending reformat fails the check.
     return 1 if changed else 0
 
 

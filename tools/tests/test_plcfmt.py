@@ -25,6 +25,11 @@ TEST_SRC = os.environ.get("CENTROID_AI_TEST_SRC")
 Skip = unittest.SkipTest
 
 
+def _read(p):
+    with open(p, "rb") as f:
+        return f.read()
+
+
 def _raises(exc, fn, *a, **k):
     try:
         fn(*a, **k)
@@ -227,7 +232,7 @@ def test_run_check_returns_1_when_changes_needed():
             f.write(b"if a then b\r\n")
         with contextlib.redirect_stdout(io.StringIO()):
             assert plcfmt.run(p, fix=False, verify=False) == 1
-        assert open(p, "rb").read() == b"if a then b\r\n"   # check writes nothing
+        assert _read(p) == b"if a then b\r\n"   # check writes nothing
 
 
 def test_run_fix_writes_and_returns_0():
@@ -236,7 +241,7 @@ def test_run_fix_writes_and_returns_0():
         with open(p, "wb") as f:
             f.write(b"if a then b\r\n")
         assert plcfmt.run(p, fix=True, verify=False) == 0
-        assert open(p, "rb").read() == b"IF a THEN b\r\n"
+        assert _read(p) == b"IF a THEN b\r\n"
 
 
 def test_check_findings_are_advisory_exit_0():
@@ -246,7 +251,8 @@ def test_check_findings_are_advisory_exit_0():
         text = "BadName_M" + " " * 22 + " IS INP6\r\n"     # formatted, bad suffix
         with open(p, "wb") as f:
             f.write(text.encode("ascii"))
-        assert plcfmt.run(p, fix=False, verify=False) == 0
+        with contextlib.redirect_stderr(io.StringIO()):
+            assert plcfmt.run(p, fix=False, verify=False) == 0
 
 
 def test_verify_compiles_the_given_file():
@@ -292,7 +298,7 @@ def test_fix_without_compiler_refuses_and_explains():
             out = io.StringIO()
             with contextlib.redirect_stdout(out), contextlib.redirect_stderr(out):
                 assert plcfmt.main(["--fix", p]) == 2
-            assert open(p, "rb").read() == b"if a then b\r\n"
+            assert _read(p) == b"if a then b\r\n"
             assert "--no-verify" in out.getvalue()
     finally:
         plcfmt.locate = orig
@@ -322,7 +328,7 @@ def test_gate_reverts_when_fingerprint_extraction_fails():
                 f.write(b"if a then b\r\n")
             _raises(RuntimeError, plcfmt.verify_compile_identical,
                     p, "if a then b\r\n", "IF a THEN b\r\n", Path("x.exe"))
-            assert open(p, "rb").read() == b"if a then b\r\n"   # reverted
+            assert _read(p) == b"if a then b\r\n"   # reverted
     finally:
         plcfmt._compile, plcfmt.plc_fingerprint = orig_compile, orig_fp
 
@@ -342,9 +348,45 @@ def test_main_reports_gate_error_cleanly():
                 f.write(b"if a then b\r\n")
             with contextlib.redirect_stderr(io.StringIO()):
                 assert plcfmt.main(["--fix", "--compiler", exe, p]) == 2
-            assert open(p, "rb").read() == b"if a then b\r\n"   # nothing written
+            assert _read(p) == b"if a then b\r\n"   # nothing written
     finally:
         plcfmt._compile = orig
+
+
+def test_confirm_compiler_when_found_in_cnc12_folder():
+    orig = plcfmt.locate
+    plcfmt.locate = lambda *a, **k: mpucomp_locate.Found(Path("/opt/cncr/mpucomp.exe"), "cnc12")
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            p = os.path.join(td, "x.src")
+            with open(p, "wb") as f:
+                f.write(b"if a then b\r\n")
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                assert plcfmt.main(["--fix", p]) == 3
+            assert "CONFIRM COMPILER: %s" % Path("/opt/cncr/mpucomp.exe") in out.getvalue()
+            assert _read(p) == b"if a then b\r\n"
+    finally:
+        plcfmt.locate = orig
+
+
+def test_bad_explicit_compiler_exits_2():
+    orig = plcfmt.locate
+    def bad(*a, **k):
+        raise FileNotFoundError("no such compiler")
+    plcfmt.locate = bad
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            p = os.path.join(td, "x.src")
+            with open(p, "wb") as f:
+                f.write(b"if a then b\r\n")
+            err = io.StringIO()
+            with contextlib.redirect_stderr(err):
+                assert plcfmt.main(["--fix", "--compiler", "nope", p]) == 2
+            assert "no such compiler" in err.getvalue()
+            assert _read(p) == b"if a then b\r\n"
+    finally:
+        plcfmt.locate = orig
 
 
 # --------------------------------------------------------------------------- #
