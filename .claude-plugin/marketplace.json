@@ -1,0 +1,6 @@
+{
+  "name": "centroid-ai",
+  "description": "Generic Centroid CNC12 skills and PLC tools for Claude Code and Codex",
+  "owner": { "name": "Bill Warner", "url": "https://github.com/TD-4242" },
+  "plugins": []
+}
