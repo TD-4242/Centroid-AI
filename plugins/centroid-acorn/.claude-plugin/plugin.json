@@ -1,0 +1,10 @@
+{
+  "name": "centroid-acorn",
+  "version": "0.1.0",
+  "description": "Install, wire, configure and troubleshoot a Centroid Acorn controller, including the Acorn Wizard and axis pairing and squaring.",
+  "author": { "name": "Bill Warner" },
+  "homepage": "https://github.com/TD-4242/Centroid-AI",
+  "repository": "https://github.com/TD-4242/Centroid-AI",
+  "license": "MIT",
+  "keywords": ["centroid", "acorn", "install"]
+}

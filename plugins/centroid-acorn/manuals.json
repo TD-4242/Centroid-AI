@@ -1,0 +1,10 @@
+[
+  { "id": "acorn-install", "title": "Acorn Installation Manual", "citeAs": "Acorn Install",
+    "url": "https://www.centroidcnc.com/centroid_diy/downloads/acorn_documentation/centroid_acorn_install_manual.pdf",
+    "file": "centroid_acorn_install_manual.pdf", "expectRev": "rev6",
+    "expectPages": 138, "pdfOffset": 1, "sizeMB": 16 },
+  { "id": "pairing-guide", "title": "Acorn Axis Pairing and Squaring", "citeAs": "Pairing Guide",
+    "url": "https://www.centroidcnc.com/centroid_diy/downloads/acorn_documentation/paired_axes_acorn_user_guide.pdf",
+    "file": "paired_axes_acorn_user_guide.pdf", "expectRev": "rev19",
+    "expectPages": 41, "pdfOffset": 0, "sizeMB": 21 }
+]
