@@ -1,3 +1,5 @@
+import contextlib
+import io
 import tempfile
 import unittest
 from pathlib import Path
@@ -59,6 +61,36 @@ class CheckSkillLinksTest(unittest.TestCase):
         misses = csl.check_tree(self.root)
         self.assertEqual(len(misses), 1)
         self.assertIn("a.md#not-a-heading", misses[0])
+
+
+    def test_plugin_owner_ignores_files_under_plugins(self):
+        write(self.root / "plugins" / "centroid-stray.md", "# stray\n")
+        write(self.root / "README.md", "Use `centroid-stray`.\n")
+        self.assertTrue(any("unknown skill centroid-stray" in m for m in csl.check_tree(self.root)))
+
+    def run_main(self, root):
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            code = csl.main([str(root)])
+        return code, out.getvalue(), err.getvalue()
+
+    def test_cli_exit_2_when_nothing_to_check(self):
+        with tempfile.TemporaryDirectory() as empty:
+            code, _, err = self.run_main(empty)
+        self.assertEqual(code, 2)
+        self.assertIn("no Markdown files", err)
+
+    def test_cli_exit_0_on_clean_tree(self):
+        write(self.root / "README.md", "Install `centroid-a`.\n")
+        code, out, _ = self.run_main(self.root)
+        self.assertEqual(code, 0)
+        self.assertIn("OK:", out)
+
+    def test_cli_exit_1_prints_broken_link(self):
+        write(self.root / "README.md", "[x](missing.md)\n")
+        code, out, _ = self.run_main(self.root)
+        self.assertEqual(code, 1)
+        self.assertIn("broken link missing.md", out)
 
 
 if __name__ == "__main__":

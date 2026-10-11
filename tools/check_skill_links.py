@@ -26,8 +26,10 @@ def _skill_owners(root):
     owners = {}
     for skill_md in (root / "plugins").glob("*/skills/*/SKILL.md"):
         owners[skill_md.parent.name] = skill_md.parents[2].name
-    for plugin in (root / "plugins").glob("*/"):
-        owners.setdefault(plugin.name, plugin.name)
+    if (root / "plugins").is_dir():
+        for plugin in (root / "plugins").iterdir():
+            if plugin.is_dir():
+                owners.setdefault(plugin.name, plugin.name)
     return owners
 
 
