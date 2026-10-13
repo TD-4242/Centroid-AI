@@ -19,7 +19,11 @@ is tied to one machine. Not affiliated with Centroid or TECO-Westinghouse.
 then install plugins from the Plugins directory.
 
 **Claude app and Cowork:** add the marketplace from *Customize → Plugins*; see
-[Claude app and Cowork](docs/installing.md#claude-app-and-cowork). **ChatGPT** is in pilot:
+[Claude app and Cowork](docs/installing.md#claude-app-and-cowork).
+
+**ChatGPT in the browser** (unverified, being piloted): download a plugin zip from
+[Releases](https://github.com/TD-4242/Centroid-AI/releases) and follow
+[docs/chatgpt-browser.md](docs/chatgpt-browser.md). Desktop app:
 [ChatGPT (pilot)](docs/installing.md#chatgpt-pilot). Full steps: [docs/installing.md](docs/installing.md).
 
 ## Plugins
