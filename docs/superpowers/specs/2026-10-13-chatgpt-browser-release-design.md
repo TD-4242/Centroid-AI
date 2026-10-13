@@ -85,7 +85,7 @@ Linked from README Quick install and from `docs/installing.md`'s ChatGPT section
 - **Plugin Creator prompt** (one code block; the user fills two placeholders from the table):
 
   ```
-  Create a private plugin from the attached zip. It holds one plugin folder: skills/<name>/SKILL.md
+  Create a private plugin from the attached zip. It holds one plugin folder: skills/*/SKILL.md
   files, their reference/*.md files, a plugin.json and a SOURCE.txt.
   - Keep every SKILL.md and reference file word for word, including page citations and safety notes.
   - Name: <plugin name>. Display name: <display name>.

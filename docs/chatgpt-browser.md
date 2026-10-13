@@ -5,8 +5,8 @@
 > step is marked *(unverified)*. Please report what happens on #2.
 
 These plugins answer questions about Centroid CNC12, Acorn and ALLIN1DC controls and the TECO F510
-drive, citing the official manuals by page. In the browser they work as knowledge plugins: no
-Python, Git or compiler is needed.
+drive, citing the official manuals by page. In the browser they work as knowledge plugins *(unverified)*:
+no Python, Git or compiler is needed.
 
 ## What you need
 
@@ -36,7 +36,7 @@ Python, Git or compiler is needed.
 3. **Paste this prompt**, replacing the three `<...>` values from the table below:
 
    ```
-   Create a private plugin from the attached zip. It holds one plugin folder: skills/<name>/SKILL.md
+   Create a private plugin from the attached zip. It holds one plugin folder: skills/*/SKILL.md
    files, their reference/*.md files, a plugin.json and a SOURCE.txt.
    - Keep every SKILL.md and reference file word for word, including page citations and safety notes.
    - Name: <plugin name>. Display name: <display name>.
@@ -67,7 +67,7 @@ Python, Git or compiler is needed.
 
 ## Without a compiler or Python
 
-Knowledge answers work in the browser. When an answer needs a manual's exact wording, the plugin
+Knowledge answers work in the browser *(unverified)*. When an answer needs a manual's exact wording, the plugin
 gives you the manual's download link (all links: [docs/manuals.md](manuals.md)) or asks you to
 upload the PDF and then reads the cited page from it.
 
