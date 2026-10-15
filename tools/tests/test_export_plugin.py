@@ -196,5 +196,88 @@ class ExportPluginTest(unittest.TestCase):
         self.assertEqual(len(list((self.root / "dist").glob("centroid-a-1.2.3-*.zip"))), 1)
 
 
+class ExportAllTest(unittest.TestCase):
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self._tmp.name)
+        self.out = self.root / "dist"
+        for name in ("centroid-b", "centroid-a"):
+            make_plugin(self.root, name, version="1.0.0")
+        write_catalogs(self.root, ["centroid-b", "centroid-a"])
+        write(self.root / ".gitignore", "__pycache__/\n*.pyc\ndist/\n")
+        git(self.root, "init", "-q")
+        git(self.root, "config", "user.email", "t@example.com")
+        git(self.root, "config", "user.name", "t")
+        git(self.root, "config", "commit.gpgsign", "false")
+        git(self.root, "add", "-A")
+        git(self.root, "commit", "-qm", "init")
+        self.sha = git(self.root, "rev-parse", "HEAD")
+
+    def tearDown(self):
+        self._tmp.cleanup()
+
+    def test_catalog_plugins_in_catalog_order(self):
+        self.assertEqual(ep.catalog_plugins(self.root), ["centroid-b", "centroid-a"])
+
+    def test_all_skips_plugin_in_one_catalog(self):
+        make_plugin(self.root, "centroid-c")
+        write_catalogs(self.root, ["centroid-b", "centroid-a", "centroid-c"],
+                       codex_names=["centroid-b", "centroid-a"])
+        self.assertEqual(ep.catalog_plugins(self.root), ["centroid-b", "centroid-a"])
+
+    def test_all_deduplicates(self):
+        write_catalogs(self.root, ["centroid-b", "centroid-a", "centroid-b"])
+        self.assertEqual(ep.catalog_plugins(self.root), ["centroid-b", "centroid-a"])
+
+    def test_export_all_writes_one_zip_per_plugin(self):
+        paths = ep.export_all(self.root, self.out, now=FIXED_NOW)
+        self.assertEqual([p.name for p in paths],
+                         [f"centroid-b-1.0.0-{self.sha[:7]}.zip", f"centroid-a-1.0.0-{self.sha[:7]}.zip"])
+        self.assertTrue(all(p.is_file() for p in paths))
+
+    def test_stable_name(self):
+        path = ep.export(self.root, "centroid-a", self.out, now=FIXED_NOW, stable_name=True)
+        self.assertEqual(path, self.out / "centroid-a.zip")
+        with zipfile.ZipFile(path) as zf:
+            self.assertIn("version: 1.0.0\n", zf.read("centroid-a/SOURCE.txt").decode("utf-8"))
+
+    def test_stable_name_overwrites_existing_zip(self):
+        write(self.out / "centroid-a.zip", "stale, not a zip")
+        path = ep.export(self.root, "centroid-a", self.out, now=FIXED_NOW, stable_name=True)
+        with zipfile.ZipFile(path) as zf:
+            self.assertIn("centroid-a/SOURCE.txt", zf.namelist())
+
+    def test_all_stops_on_dirty_plugin(self):
+        write(self.root / "plugins" / "centroid-a" / "skills" / "s1" / "SKILL.md", "changed\n")
+        with self.assertRaises(ep.ExportError) as ctx:
+            ep.export_all(self.root, self.out, now=FIXED_NOW, stable_name=True)
+        self.assertEqual(ctx.exception.code, 1)
+        self.assertIn("plugins/centroid-a", str(ctx.exception))
+        self.assertTrue((self.out / "centroid-b.zip").is_file())
+        self.assertFalse((self.out / "centroid-a.zip").exists())
+
+    def test_main_all_prints_each_path(self):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            code = ep.main(["--all", "--stable-name", "--root", str(self.root), "--out", str(self.out)])
+        self.assertEqual(code, 0)
+        self.assertEqual(out.getvalue().splitlines(),
+                         [str(self.out / "centroid-b.zip"), str(self.out / "centroid-a.zip")])
+
+    def test_main_all_error_exit_code(self):
+        write(self.root / "plugins" / "centroid-a" / "skills" / "s1" / "SKILL.md", "changed\n")
+        err = io.StringIO()
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(err):
+            code = ep.main(["--all", "--root", str(self.root), "--out", str(self.out)])
+        self.assertEqual(code, 1)
+        self.assertTrue(err.getvalue().startswith("error: "))
+
+    def test_main_plugin_and_all_is_usage_error(self):
+        for argv in (["centroid-a", "--all"], []):
+            with self.assertRaises(SystemExit) as ctx, contextlib.redirect_stderr(io.StringIO()):
+                ep.main([*argv, "--root", str(self.root)])
+            self.assertEqual(ctx.exception.code, 2)
+
+
 if __name__ == "__main__":
     unittest.main()

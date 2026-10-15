@@ -44,8 +44,10 @@ marketplace → Add from a repository*, and enter `TD-4242/Centroid-AI`. Then in
 
 **Cowork.** Open the *Cowork* tab, then *Customize*, and follow the same *Plugins* steps.
 
-**Upload a plugin file instead.** You can also upload a plugin you built yourself. From a clone
-of this repo:
+**Upload a plugin file instead.** Ready-made zips are on the
+[Releases page](https://github.com/TD-4242/Centroid-AI/releases), e.g.
+`https://github.com/TD-4242/Centroid-AI/releases/latest/download/centroid-acorn.zip`. Or build one
+from a clone of this repo:
 
     python3 tools/export_plugin.py centroid-acorn
 
@@ -68,7 +70,10 @@ Notes:
 ## ChatGPT (pilot)
 
 ChatGPT support is being piloted in [issue #2](https://github.com/TD-4242/Centroid-AI/issues/2);
-neither route below is confirmed yet. Steps as of 2026-10.
+none of these routes is confirmed yet. Steps as of 2026-10.
+
+**In the browser (Chat/Work):** follow [ChatGPT in the browser](chatgpt-browser.md). It needs no
+Python or Git: download a plugin zip from the Releases page and give it to Plugin Creator.
 
 **Route 1: desktop app with a local marketplace (try this first).** The ChatGPT desktop app reads
 a plugin marketplace from `.agents/plugins/marketplace.json` at a repository root, or from
