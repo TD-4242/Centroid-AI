@@ -42,17 +42,25 @@ and testing only.
 Reference `CentroidAPI.dll` from the root of the CNC12 install (`c:\cncm` for mill) and add
 `using CentroidAPI;` (API Ref, Getting Started). One `CNCPipe` is one API connection; its
 sub-objects (`axis`, `dro`, `state`, `plc`, `job`, `tool`, ...) carry the calls
-(API Ref, CNCPipe). Centroid's own example checks the connection like this
+(API Ref, CNCPipe). Centroid's own example asks the user on every failed attempt - Yes rebuilds the
+pipe, No exits - so the loop waits on the dialog rather than spinning
 (API Ref, Axis Data example):
 
 ```csharp
 cnc12_pipe = new CNCPipe();
 while (!cnc12_pipe.IsConstructed())
 {
-    // ask the user to retry; on Yes: cnc12_pipe = new CNCPipe();
+    MessageBoxResult selection = MessageBox.Show(messageBoxText, messageBoxTitle, messageBoxType);
+    switch (selection)
+    {
+        case MessageBoxResult.Yes: cnc12_pipe = new CNCPipe(); break;
+        case MessageBoxResult.No:  Environment.Exit(0);        break;
+    }
 }
 returnCode = cnc12_pipe.axis.GetLabel(CNCPipe.Axes.AXIS_1, out char label);
 ```
+
+Each `new CNCPipe()` waits up to its `timeout` seconds, 1 by default (API Ref, CNCPipe).
 
 CNC12 must be running and finished initializing before the pipe connects (API Ref, Axis Data
 example). Reconnecting after CNC12 restarts is in
@@ -123,8 +131,8 @@ This skill cites:
 - **fca1 wrapper** - the community Python wrapper the App API page names, cited only for its own
   claims and labeled unofficial: https://github.com/fca1/cnc_centroid_skinning
 
-The API reference is web pages, not a PDF; there is nothing to download. If a page is not reachable,
-give the user the URL above.
+The API reference is web pages, not a PDF; there is nothing to download for it. If a page is not
+reachable, give the user the URL above. The two manuals this skill also cites are under Manuals.
 
 ## Useful resources
 
@@ -135,3 +143,29 @@ From the App API page:
 - CNC12 software downloads: https://centroidcnc.com/centroid_diy/centroid_cnc_software_downloads.html
 - Visual Studio editions: https://visualstudio.microsoft.com/vs/compare/
 - CNC PC requirements: https://centroidcnc.com/cnc_pc_performance_requirements.html
+
+## Manuals
+
+Besides its web sources, this skill cites: PLC Manual (CNC12 PLC Programming Manual) and VCP Manual
+(VCP 2.0 Users Manual), for the PLC and VCP side of skinning data words and skin events. PLC Manual
+citations are PDF pages; VCP Manual citations are printed pages, which equal PDF pages. Exact wording is in the official PDF. When an answer needs text beyond these
+references, run `python3 <plugin>/scripts/fetch_manual.py <id>` with `plc-manual` or
+`vcp-manual` (`<plugin>` is this plugin's root directory):
+
+- exit 0: it printed the local PDF path — read the cited page with `pdftotext -layout -f <p> -l <p> <path> -`
+  if available, or open the PDF.
+- exit 4: not downloaded yet. Ask the user in plain words, e.g. "This is best checked against
+  the CNC12 PLC Programming Manual (free PDF, about 3 MB). Want me to download it to
+  the folder it printed after `to:`? I can also do this automatically from now on, or never ask
+  again." Yes → rerun with `--yes`. "Always" → `python3 <plugin>/scripts/centroid_config.py set manuals.autoDownload always`, then rerun. "Never" → set `never`.
+- exit 5: the user chose never to download; answer from the references and give the manual and page.
+- exit 1: download failed; give the user the printed URL to download by hand.
+- exit 2: show the printed error line to the user as-is (bad settings file or unknown manual id).
+
+If you can't run Python here (for example in ChatGPT or Claude web chat), don't run the script:
+give the user the manual's link from the download-links page named below, or ask them to upload
+the PDF and read the cited page from it.
+
+On Windows, use `py -3` (or `python`) if `python3` is not found.
+
+Download links for every manual: https://github.com/TD-4242/Centroid-AI/blob/main/docs/manuals.md

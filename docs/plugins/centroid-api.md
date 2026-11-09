@@ -42,7 +42,16 @@ The API is documented as web pages, not a PDF, so there is nothing to download:
 - Centroid's example apps: https://github.com/CentroidCNC/CentroidAPI_CSharp_PowerFeed and
   https://github.com/CentroidCNC/CentroidAPI_VBnet_PowerFeed
 
+## Manuals
+
+This plugin also cites:
+
+- [CNC12 PLC Programming Manual](../manuals.md) (PLC Manual)
+- [VCP 2.0 Users Manual](../manuals.md) (VCP Manual)
+
+Download links, revisions and page offsets are in [manuals.md](../manuals.md).
+
 ## Requirements
 
 - To build apps: Windows 10 or 11 (64-bit), Visual Studio, and CNC12 installed (Offline or Standard).
-- None for the skill itself.
+- Python 3.10+ only for the optional manual download.

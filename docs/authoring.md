@@ -34,9 +34,10 @@ Forms in use:
 
 Keep this table in sync with [manuals.md](manuals.md) and each plugin's `manuals.json`.
 
-Web sources (no PDF, no `manuals.json` entry) are cited by name and page or class instead of a page
-number, e.g. `(API Ref, CNCPipe.Plc)` or `(App API page)`; the skill's **Sources** section gives each
-source's URL and replaces the standard "Manuals" section. `centroid-api` is the plugin that does this.
+Web sources (no PDF) are cited by name and page or class instead of a page number, e.g.
+`(API Ref, CNCPipe.Plc)` or `(App API page)`, and listed with their URLs in a **Sources** section.
+They get no `manuals.json` entry; any manual the same skill also cites still goes in `manuals.json`
+and the standard "Manuals" section. `centroid-api` does both.
 
 | Cite as | PDF page = cited page + |
 | --- | --- |

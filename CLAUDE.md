@@ -37,7 +37,7 @@ The `plcfmt`/`plc_compile` integration tests need Wine plus `CENTROID_AI_TEST_SR
   are copied into every `plugins/*/scripts/`. Never edit the copies; edit `shared/` and run
   `sync_shared.py`.
 - **`manuals.json` per plugin** lists the PDFs its skills cite (URL, expected rev/pages, `pdfOffset`).
-  A plugin that cites only web sources (`centroid-api`) has none.
+  Web sources (e.g. `centroid-api`'s API reference) get no entry; they go in a Sources section.
   PDFs are never committed (`.gitignore` blocks `*.pdf`, `*.exe`, `*.plc`); `fetch_manual.py`
   downloads them with consent.
 - **`centroid-plc` scripts** wrap Centroid's own compiler: `mpucomp_locate.py` finds `mpucomp.exe`
@@ -61,7 +61,7 @@ checklist). Key points:
   for electrical-safety guidance only.
 - Describe current state only - no "previously"/"REMOVED" tombstones.
 - Shape: `SKILL.md` plus `reference/*.md` of ~100-250 lines; each knowledge skill ends with the
-  standard "Manuals" section, or a "Sources" section when it cites only web sources.
+  standard "Manuals" section for any manual it cites, plus a "Sources" section for web sources.
 - Cross-plugin skill names must be conditional and carry a manual citation on the same line;
   `check_skill_links.py` enforces this along with link and anchor resolution.
 - Adding a plugin also means a `docs/plugins/<name>.md` page and a README table row.

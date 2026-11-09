@@ -33,11 +33,17 @@ be saved or sent returns `ERROR_SAVE_CONFIGURATION`, `ERROR_SEND_SETUPS` or `ERR
 | `GetLimit(Axes, Direction, out double)` | `SetLimit(Axes, Direction, double)` | Axis limit; inches or millimeters per the machine unit configuration. |
 | `GetHomeLimit(Axes, Direction, out double)` | `SetHomeLimit(Axes, Direction, double)` | Home limit; inches or millimeters per the machine unit configuration. |
 | `GetTravelLimit(Axes, Direction, out double)` | `SetTravelLimit(Axes, Direction, double)` | Travel limit in a direction. |
-| `GetScalesEnable(Axes, out bool)` | `SetScalesEnable(Axes, bool)` | Scaling enabled. |
-| `GetScalesInput(Axes, out int encoder_number)` | `SetScalesInput(Axes, int)` | Encoder input that scales the axis. |
-| `GetScalesCounts(Axes, out double)` | `SetScalesCounts(Axes, double)` | Counts the axis is scaled by. |
-| `GetScalesVelocity(Axes, out double)` | `SetScalesVelocity(Axes, double)` | Scaling velocity. |
-| `GetScalesDeadband(Axes, out int)` | `SetScalesDeadband(Axes, int)` | Scaling deadband. |
+| `GetScalesEnable(Axes, out bool)` | `SetScalesEnable(Axes, bool)` | Scale enabled for the axis. |
+| `GetScalesInput(Axes, out int encoder_number)` | `SetScalesInput(Axes, int)` | Encoder input the scale is wired to. |
+| `GetScalesCounts(Axes, out double)` | `SetScalesCounts(Axes, double)` | Scale counts. |
+| `GetScalesVelocity(Axes, out double)` | `SetScalesVelocity(Axes, double)` | Scale correction velocity. |
+| `GetScalesDeadband(Axes, out int)` | `SetScalesDeadband(Axes, int)` | Scale deadband. |
+
+The `Scales` calls are the CNC software's **Scale Menu**: a scale is a separate position-feedback
+encoder whose compensation corrects the axis (PLC Manual, PDF p.106); with compensation inhibited
+the DRO shows the motor encoder's absolute position (PLC Manual, PDF p.116). They configure
+feedback, not a coordinate scale factor. The API itself words them as "scaling"
+(API Ref, CNCPipe.Axis).
 
 `Direction` is `PLUS` or `MINUS` (API Ref, CNCPipe.Axis).
 
