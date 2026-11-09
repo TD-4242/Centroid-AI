@@ -23,11 +23,11 @@ PDF page = cited page + offset. An offset of +0 means the skills cite PDF page n
 
 ## Downloading by hand
 
-Centroid's server rejects requests without a browser-like user agent. With curl:
+Centroid's server rejects any user agent containing "curl", including curl's default. Set a
+different one with `-A`:
 
 ```bash
-curl -fL -A 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36' \
-  -H 'Accept: application/pdf,*/*' -o ~/.centroid-ai/manuals/<file> <url>
+curl -fL -A 'Mozilla/5.0' -o ~/.centroid-ai/manuals/<file> <url>
 ```
 
 Use the manual's link above as `<url>` and the last part of that link as `<file>`. Or open the
