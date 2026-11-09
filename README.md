@@ -35,6 +35,7 @@ then install plugins from the Plugins directory.
 | [centroid-cnc12-ops](docs/plugins/centroid-cnc12-ops.md) | Operate Centroid CNC12 Mill and Router software: menus, jogging, part zero, tool offsets, running jobs, and G/M-code, parameter and message lookup. | `centroid-cnc12-mill-ops`, `centroid-cnc12-router-ops` |
 | [centroid-acorn](docs/plugins/centroid-acorn.md) | Install, wire, configure and troubleshoot a Centroid Acorn controller, including the Acorn Wizard and axis pairing and squaring. | `centroid-acorn-install` |
 | [centroid-allin1dc](docs/plugins/centroid-allin1dc.md) | Install, wire, commission and tune a Centroid ALLIN1DC (MPU11) servo controller. | `centroid-allin1dc-install` |
+| [centroid-api](docs/plugins/centroid-api.md) | Build your own C# or VB.NET app against a running CNC12 with CentroidAPI.dll: connecting, return codes, machine state, PLC I/O, jobs, tools and inbound messages. | `centroid-cnc12-api` |
 | [teco-f510](docs/plugins/teco-f510.md) | Set up, wire, tune and troubleshoot a TECO-Westinghouse F510 VFD driving a CNC spindle. | `teco-f510` |
 
 ## Official manuals

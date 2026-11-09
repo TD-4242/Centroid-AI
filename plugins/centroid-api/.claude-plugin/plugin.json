@@ -1,0 +1,17 @@
+{
+  "name": "centroid-api",
+  "version": "0.1.0",
+  "description": "Build your own C# or VB.NET app against a running Centroid CNC12 with CentroidAPI.dll: connecting, return codes, machine state, PLC I/O and skinning data, jobs, tools, parameters and inbound messages.",
+  "author": {
+    "name": "Bill Warner"
+  },
+  "homepage": "https://github.com/TD-4242/Centroid-AI",
+  "repository": "https://github.com/TD-4242/Centroid-AI",
+  "license": "MIT",
+  "keywords": [
+    "centroid",
+    "cnc12",
+    "api",
+    "csharp"
+  ]
+}
