@@ -15,7 +15,7 @@ from pathlib import Path
 import centroid_config
 
 urlopen = urllib.request.urlopen
-# Centroid's server rejects default client user agents.
+# Centroid's server rejects any user agent containing "curl" (docs/manuals.md).
 HEADERS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
                          "Chrome/126.0 Safari/537.36",
            "Accept": "application/pdf,*/*"}
