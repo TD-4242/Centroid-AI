@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "centroid-api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Build your own C# or VB.NET app against a running Centroid CNC12 with CentroidAPI.dll: connecting, return codes, machine state, PLC I/O and skinning data, jobs, tools, parameters and inbound messages.",
   "author": {
     "name": "Bill Warner"
